@@ -5,16 +5,18 @@ window.onload = onInit
 const gCanvas = document.querySelector('.meme-editor-canvas')
 const gCtx = gCanvas.getContext('2d')
 
+window.addEventListener('resize', refreshCanvas)
+
 function onInit() {
   renderGallery()
   renderMyMemes()
+  refreshCanvas()
   onSelectSection(null)
   generalEventListeners()
   lineControlsEventListeners()
   fontControlsEventListeners()
   storageControlsEventListeners()
-
-  window.addEventListener('resize', refreshCanvas)
+  
 }
 
 function generalEventListeners() {
@@ -25,7 +27,10 @@ function generalEventListeners() {
     elGalleryMeme.addEventListener('click', function () {
       onSelectGalleryMeme(this)
       renderLineText()
-      refreshCanvas()
+      
+      setTimeout(() => {
+        refreshCanvas()
+      }, 50);
     })
   })
 
@@ -37,12 +42,11 @@ function generalEventListeners() {
 }
 
 function lineControlsEventListeners() {
-  console.log('test')
-  const elLineTextInput = document.querySelector('.line-text')
-  const elSwitchLineBtn = document.querySelector('.switch-line-btn')
-  const elMoveUpBtn = document.querySelector('.move-up-btn')
-  const elMoveDownBtn = document.querySelector('.move-down-btn')
-  const elAddLineBtn = document.querySelector('.add-line-btn')
+  const elLineTextInput = document.querySelector('.line-text') 
+  const elSwitchLineBtn = document.querySelector('.switch-line-btn') 
+  const elMoveUpBtn = document.querySelector('.move-up-btn') 
+  const elMoveDownBtn = document.querySelector('.move-down-btn') 
+  const elAddLineBtn = document.querySelector('.add-line-btn') 
   const elDeleteLineBtn = document.querySelector('.delete-line-btn')
 
   elLineTextInput.addEventListener('input', function () {
@@ -254,6 +258,10 @@ function onSelectSection(elSectionNav) {
 }
 
 function drawOnCanvas() {
+  const elCanvasContainer = document.querySelector('.canvas-container')
+  gCanvas.width = elCanvasContainer.offsetWidth
+  gCanvas.height = elCanvasContainer.offsetHeight
+
   const selectedMeme = getSelectedMeme()
   if (!selectedMeme) return
 

@@ -1,8 +1,8 @@
 .meme-editor-section {
   display: flex;
   justify-content: center;
-  height: 80dvh;
-  width: 80vw;
+  width: 100%;
+  height: 100%;
 }
 
 .meme-editor-section div {
@@ -13,16 +13,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+
+  width: 80%;
   height: 100%;
+
+  margin: 0;
+  padding: 0;
 }
 
 .meme-editor-section .meme-editor-controls {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-direction: column;
-
+  width: 20%;
+  height: 100%;
 }
 
 .meme-editor-controls .line-controls,
@@ -31,8 +35,6 @@
 .meme-editor-controls .meme-storage-controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  
-  margin: 2rem;
 }
 .meme-editor-controls .line-controls .line-text {
   grid-column: 1/-1;
