@@ -5,11 +5,26 @@ const gCtx = gCanvas.getContext('2d')
 
 function onInit() {
   renderGallery()
+  generalEventListeners()
 
   window.addEventListener('resize', refreshCanvas)
 }
 
-function generalEventListeners() {}
+function generalEventListeners() {
+  const elGalleryMemes = document.querySelectorAll('.gallery-meme')
+  elGalleryMemes.forEach((elGalleryMeme) => {
+    elGalleryMeme.addEventListener('click', function () {
+      selectGalleryMeme(this)
+    })
+  })
+
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+  elSectionNavs.forEach((elSectionNav) => {
+    elSectionNav.addEventListener('click', function () {
+      selectSection(this)
+    })
+  })
+}
 
 function refreshCanvas() {
   const elCanvasContainer = document.querySelector('.canvas-container')
@@ -31,7 +46,7 @@ function renderGallery() {
       )}" class="gallery-meme" data-id="${
         memeImage.id
       }" ${memeImage.keywords.map((keyword) => `data-keyword="${keyword}"`)}
-      onclick="selectGalleryMeme(this)">`
+      >`
     })
     .join('')
 
@@ -84,5 +99,28 @@ function renderImg() {
       img.width * scaleFactor,
       img.height * scaleFactor
     )
+  }
+}
+
+function selectSection(elSectionNav) {
+  const selectedSection = elSectionNav.dataset.section || 'gallery'
+  const elSections = document.querySelectorAll('section')
+  elSections.forEach((elSection) => {
+    elSection.classList.add('hidden')
+  })
+
+  switch (selectedSection) {
+    case 'gallery':
+      const elGallerySection = document.querySelector('.gallery-section')
+      elGallerySection.classList.remove('hidden')
+      break
+    case 'meme':
+      const elMemeSection = document.querySelector('.meme-section')
+      elMemeSection.classList.remove('hidden')
+      break
+    case 'about':
+      const elAboutSection = document.querySelector('.about-section')
+      elAboutSection.classList.remove('hidden')
+      break
   }
 }
