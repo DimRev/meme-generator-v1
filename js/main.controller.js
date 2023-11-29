@@ -7,27 +7,29 @@ const gCtx = gCanvas.getContext('2d')
 
 function onInit() {
   renderGallery()
-  selectSection(null)
+  onSelectSection(null)
   generalEventListeners()
   lineControlsEventListeners()
+  fontControlsEventListeners()
 
   window.addEventListener('resize', refreshCanvas)
 }
 
 function generalEventListeners() {
   const elGalleryMemes = document.querySelectorAll('.gallery-meme')
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+
   elGalleryMemes.forEach((elGalleryMeme) => {
     elGalleryMeme.addEventListener('click', function () {
-      selectGalleryMeme(this)
+      onSelectGalleryMeme(this)
       renderLineText()
       refreshCanvas()
     })
   })
 
-  const elSectionNavs = document.querySelectorAll('.section-nav')
   elSectionNavs.forEach((elSectionNav) => {
     elSectionNav.addEventListener('click', function () {
-      selectSection(this)
+      onSelectSection(this)
     })
   })
 }
@@ -35,40 +37,91 @@ function generalEventListeners() {
 function lineControlsEventListeners() {
   console.log('test')
   const elLineTextInput = document.querySelector('.line-text')
+  const elSwitchLineBtn = document.querySelector('.switch-line-btn')
+  const elMoveUpBtn = document.querySelector('.move-up-btn')
+  const elMoveDownBtn = document.querySelector('.move-down-btn')
+  const elAddLineBtn = document.querySelector('.add-line-btn')
+  const elDeleteLineBtn = document.querySelector('.delete-line-btn')
+
   elLineTextInput.addEventListener('input', function () {
-    handleLineText()
+    onLineText()
   })
 
-  const elSwitchLineBtn = document.querySelector('.switch-line-btn')
   elSwitchLineBtn.addEventListener('click', function () {
     selectNextLine()
     renderLineText()
     refreshCanvas()
   })
 
-  const elMoveUpBtn = document.querySelector('.move-up-btn')
   elMoveUpBtn.addEventListener('click', function () {
-    handleLineMove('up')
+    onLineMove('up')
     refreshCanvas()
   })
 
-  const elMoveDownBtn = document.querySelector('.move-down-btn')
   elMoveDownBtn.addEventListener('click', function () {
-    handleLineMove('down')
+    onLineMove('down')
     refreshCanvas()
   })
 
-  const elAddLineBtn = document.querySelector('.add-line-btn')
   elAddLineBtn.addEventListener('click', function () {
     addLine()
     renderLineText()
     refreshCanvas()
   })
 
-  const elDeleteLineBtn = document.querySelector('.delete-line-btn')
   elDeleteLineBtn.addEventListener('click', function () {
     removeLine()
     renderLineText()
+    refreshCanvas()
+  })
+}
+
+function fontControlsEventListeners() {
+  const elRiseFontSizeBtn = document.querySelector('.rise-font-size-btn')
+  const elLowerFontSizeBtn = document.querySelector('.lower-font-size-btn')
+  const elLinePosLeftBtn = document.querySelector('.line-pos-left-btn')
+  const elLinePosCenterBtn = document.querySelector('.line-pos-center-btn')
+  const elLinePosRightBtn = document.querySelector('.line-pos-right-btn')
+  const elFontFamilySelector = document.querySelector('.font-family-selector')
+  const elFontColor = document.querySelector('.font-color')
+  const elStrokeColor = document.querySelector('.stroke-color')
+
+  elRiseFontSizeBtn.addEventListener('click', function () {
+    onFontSize('rise')
+    refreshCanvas()
+  })
+
+  elLowerFontSizeBtn.addEventListener('click', function () {
+    onFontSize('lower')
+    refreshCanvas()
+  })
+
+  elLinePosLeftBtn.addEventListener('click', function () {
+    onLinePos('left')
+    refreshCanvas()
+  })
+
+  elLinePosCenterBtn.addEventListener('click', function () {
+    onLinePos('center')
+    refreshCanvas()
+  })
+
+  elLinePosRightBtn.addEventListener('click', function () {
+    onLinePos('right')
+    refreshCanvas()
+  })
+
+  elFontFamilySelector.addEventListener('change', function () {
+    onFontFamily(elFontFamilySelector.value)
+    refreshCanvas()
+  })
+
+  elFontColor.addEventListener('change', function () {
+    onFontColor(elFontColor.value)
+    refreshCanvas()
+  })
+  elStrokeColor.addEventListener('change', function () {
+    onStrokeColor(elStrokeColor.value)
     refreshCanvas()
   })
 }
@@ -115,7 +168,7 @@ function renderLineText() {
   }
 }
 
-function selectGalleryMeme(elGalleryMeme) {
+function onSelectGalleryMeme(elGalleryMeme) {
   let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
   setSelectedMeme(selectedMeme)
 
@@ -128,7 +181,7 @@ function selectGalleryMeme(elGalleryMeme) {
   refreshCanvas()
 }
 
-function selectSection(elSectionNav) {
+function onSelectSection(elSectionNav) {
   let selectedSection
   if (elSectionNav) selectedSection = elSectionNav.dataset.section
   else selectedSection = 'gallery'
@@ -182,8 +235,8 @@ function drawOnCanvas() {
       gCtx.font = `${line.fontSize}px ${line.fontFamily}` // Set the font size and type
       gCtx.fillStyle = `${line.color}` // Set the text color
       gCtx.lineWidth = 2 // Set the stroke width
-      gCtx.strokeStyle = `Black` // Set the stroke color
-      gCtx.textAlign = `center` // Align text to the center
+      gCtx.strokeStyle = `${line.strokeColor}` // Set the stroke color
+      gCtx.textAlign = `${line.textAlign}` // Align text to the center
 
       const textX = gCanvas.width / 2 + line.pos.x
       const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
@@ -194,7 +247,7 @@ function drawOnCanvas() {
   }
 }
 
-function handleLineText() {
+function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
   let lineText = elLineTextInput.value
   console.log(lineText)
@@ -203,7 +256,7 @@ function handleLineText() {
   refreshCanvas()
 }
 
-function handleLineMove(direction) {
+function onLineMove(direction) {
   switch (direction) {
     case 'up':
       setLine(getLine().text, getLine().color, getLine().fontSize, {
@@ -218,4 +271,79 @@ function handleLineMove(direction) {
       })
       break
   }
+}
+
+function onFontSize(direction) {
+  let fontSize = getLine().fontSize
+  switch (direction) {
+    case 'rise':
+      fontSize += 1
+      break
+    case 'lower':
+      fontSize -= 1
+      break
+  }
+  setLine(getLine().text, getLine().color, fontSize)
+}
+
+function onLinePos(direction) {
+  switch (direction) {
+    case 'left':
+      setLine(
+        getLine().text,
+        getLine().color,
+        getLine().fontSize,
+        getLine().pos,
+        'left'
+      )
+      break
+    case 'center':
+      setLine(
+        getLine().text,
+        getLine().color,
+        getLine().fontSize,
+        getLine().pos,
+        'center'
+      )
+      break
+    case 'right':
+      setLine(
+        getLine().text,
+        getLine().color,
+        getLine().fontSize,
+        getLine().pos,
+        'right'
+      )
+      break
+  }
+}
+
+function onFontColor() {
+  const elFontColor = document.querySelector('.font-color')
+  setLine(getLine().text, elFontColor.value)
+}
+
+function onStrokeColor() {
+  const elStrokeColor = document.querySelector('.stroke-color')
+  setLine(
+    getLine().text,
+    getLine().color,
+    getLine().fontSize,
+    getLine().pos,
+    getLine().textAlign,
+    getLine().fontFamily,
+    elStrokeColor.value
+  )
+}
+
+function onFontFamily() {
+  const elFontFamily = document.querySelector('.font-family-selector')
+  setLine(
+    getLine().text,
+    getLine().color,
+    getLine().fontSize,
+    getLine().pos,
+    getLine().textAlign,
+    elFontFamily.value
+  )
 }
