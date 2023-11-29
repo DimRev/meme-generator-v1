@@ -7,8 +7,9 @@ const gCtx = gCanvas.getContext('2d')
 
 function onInit() {
   renderGallery()
-  generalEventListeners()
   selectSection(null)
+  generalEventListeners()
+  lineControlsEventListeners()
 
   window.addEventListener('resize', refreshCanvas)
 }
@@ -18,6 +19,7 @@ function generalEventListeners() {
   elGalleryMemes.forEach((elGalleryMeme) => {
     elGalleryMeme.addEventListener('click', function () {
       selectGalleryMeme(this)
+      renderLineText()
       refreshCanvas()
     })
   })
@@ -27,6 +29,45 @@ function generalEventListeners() {
     elSectionNav.addEventListener('click', function () {
       selectSection(this)
     })
+  })
+}
+
+function lineControlsEventListeners() {
+  console.log('test')
+  const elLineTextInput = document.querySelector('.line-text')
+  elLineTextInput.addEventListener('input', function () {
+    handleLineText()
+  })
+
+  const elSwitchLineBtn = document.querySelector('.switch-line-btn')
+  elSwitchLineBtn.addEventListener('click', function () {
+    selectNextLine()
+    renderLineText()
+    refreshCanvas()
+  })
+
+  const elMoveUpBtn = document.querySelector('.move-up-btn')
+  elMoveUpBtn.addEventListener('click', function () {
+    handleLineMove('up')
+    refreshCanvas()
+  })
+  
+  const elMoveDownBtn = document.querySelector('.move-down-btn')
+  elMoveDownBtn.addEventListener('click', function () {
+    handleLineMove('down')
+    refreshCanvas()
+  })
+  
+  const elAddLineBtn = document.querySelector('.add-line-btn')
+  elAddLineBtn.addEventListener('click', function () {
+    addLine()
+    refreshCanvas()
+  })
+  
+  const elDeleteLineBtn = document.querySelector('.delete-line-btn')
+  elDeleteLineBtn.addEventListener('click', function () {
+    deleteLine()
+    refreshCanvas()
   })
 }
 
@@ -57,6 +98,15 @@ function renderGallery() {
 
   const elGallery = document.querySelector('.gallery-section')
   elGallery.innerHTML = memeImagesHTML
+}
+
+function renderLineText() {
+  const selectedMeme = getSelectedMeme()
+  if (!selectedMeme) return
+  const line = getLine()
+
+  const elLineTextInput = document.querySelector('.line-text')
+  elLineTextInput.value = line.text
 }
 
 function selectGalleryMeme(elGalleryMeme) {
@@ -130,11 +180,37 @@ function drawOnCanvas() {
       gCtx.strokeStyle = `Black` // Set the stroke color
       gCtx.textAlign = `center` // Align text to the center
 
-      const textX = gCanvas.width / 2 + line.pos.x 
+      const textX = gCanvas.width / 2 + line.pos.x
       const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
 
       gCtx.fillText(line.text, textX, textY)
       gCtx.strokeText(line.text, textX, textY)
     })
+  }
+}
+
+function handleLineText (){
+  const elLineTextInput = document.querySelector('.line-text')
+  let lineText = elLineTextInput.value
+  console.log(lineText);
+  if (!lineText) lineText = ' ' 
+  setLine(lineText)
+  refreshCanvas()
+}
+
+function handleLineMove(direction) {
+  switch (direction) {
+    case 'up':
+      setLine(getLine().text, getLine().color, getLine().fontSize, {
+        x: 0,
+        y: getLine().pos.y - 10,
+      })
+      break
+    case 'down':
+      setLine(getLine().text, getLine().color, getLine().fontSize, {
+        x: 0,
+        y: getLine().pos.y + 10,
+      })
+      break
   }
 }
