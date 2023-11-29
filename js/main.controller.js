@@ -423,6 +423,7 @@ function onMyMemeClick(elMyMeme) {
   refreshCanvas()
 }
 
+
 function onMemeRemoveBtn(memeId) { 
   deleteMyMeme(memeId)
   renderMyMemes()
