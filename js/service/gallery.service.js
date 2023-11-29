@@ -14,3 +14,7 @@ var gImgs = [
 function getMemeImages() {
   return gImgs
 }
+
+function getMemeImageById(id) {
+  return gImgs.find(img => img.id === id)
+}
