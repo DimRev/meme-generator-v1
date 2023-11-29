@@ -11,6 +11,7 @@ function onInit() {
   generalEventListeners()
   lineControlsEventListeners()
   fontControlsEventListeners()
+  storageControlsEventListeners()
 
   window.addEventListener('resize', refreshCanvas)
 }
@@ -126,6 +127,24 @@ function fontControlsEventListeners() {
   })
 }
 
+function storageControlsEventListeners() {
+  const elSaveMemeBtn = document.querySelector('.save-meme-btn')
+  const elDownloadMemeBtn = document.querySelector('.download-meme-btn')
+  const elShareMemeBtn = document.querySelector('.share-meme-btn')
+
+  elSaveMemeBtn.addEventListener('click', function () {
+    onSaveMeme()
+  })
+
+  elDownloadMemeBtn.addEventListener('click', function () {
+    onDownloadMeme()
+  })
+
+  elShareMemeBtn.addEventListener('click', function () {
+    onShareMeme()
+  })
+}
+
 function refreshCanvas() {
   const elCanvasContainer = document.querySelector('.canvas-container')
   gCanvas.width = elCanvasContainer.offsetWidth
@@ -153,6 +172,10 @@ function renderGallery() {
 
   const elGallery = document.querySelector('.gallery-section')
   elGallery.innerHTML = memeImagesHTML
+}
+
+function renderMyMemes(){
+
 }
 
 function renderLineText() {
@@ -208,49 +231,48 @@ function onSelectSection(elSectionNav) {
 }
 
 function drawOnCanvas() {
-  const selectedMeme = getSelectedMeme();
-  if (!selectedMeme) return;
+  const selectedMeme = getSelectedMeme()
+  if (!selectedMeme) return
 
-  const img = new Image();
+  const img = new Image()
 
-  img.src = selectedMeme.url;
+  img.src = selectedMeme.url
 
   img.onload = function () {
     const scaleFactor = Math.min(
       gCanvas.width / img.width,
       gCanvas.height / img.height
-    );
+    )
 
     // Center the image inside the canvas
-    const imgWidth = img.width * scaleFactor;
-    const imgHeight = img.height * scaleFactor;
-    const imgX = (gCanvas.width - imgWidth) / 2;
-    const imgY = (gCanvas.height - imgHeight) / 2;
+    const imgWidth = img.width * scaleFactor
+    const imgHeight = img.height * scaleFactor
+    const imgX = (gCanvas.width - imgWidth) / 2
+    const imgY = (gCanvas.height - imgHeight) / 2
 
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
-    gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
+    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
+    gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
 
-    let lines = getAllLines();
+    let lines = getAllLines()
     lines.forEach((line) => {
       // Scale the font size in relation to the image size
-      const scaledFontSize = line.fontSize * scaleFactor;
+      const scaledFontSize = line.fontSize * scaleFactor
 
-      gCtx.font = `${scaledFontSize}px ${line.fontFamily}`;
-      gCtx.fillStyle = `${line.color}`;
-      gCtx.lineWidth = 2;
-      gCtx.strokeStyle = `${line.strokeColor}`;
-      gCtx.textAlign = `${line.textAlign}`;
+      gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
+      gCtx.fillStyle = `${line.color}`
+      gCtx.lineWidth = 2
+      gCtx.strokeStyle = `${line.strokeColor}`
+      gCtx.textAlign = `${line.textAlign}`
 
       // Adjust text position in relation to the centered image
-      const textX = gCanvas.width / 2 + line.pos.x;
-      const textY = gCanvas.height / 2 + line.pos.y + scaledFontSize / 2;
+      const textX = gCanvas.width / 2 + line.pos.x
+      const textY = gCanvas.height / 2 + line.pos.y + scaledFontSize / 2
 
-      gCtx.fillText(line.text, textX, textY);
-      gCtx.strokeText(line.text, textX, textY);
-    });
-  };
+      gCtx.fillText(line.text, textX, textY)
+      gCtx.strokeText(line.text, textX, textY)
+    })
+  }
 }
-
 
 function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
@@ -351,4 +373,10 @@ function onFontFamily() {
     getLine().textAlign,
     elFontFamily.value
   )
+}
+
+function onSaveMeme() {
+  const selectedMeme = getSelectedMeme()
+  const lines = getAllLines()
+  addMeme(selectedMeme, lines)
 }
