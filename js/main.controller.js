@@ -208,44 +208,49 @@ function onSelectSection(elSectionNav) {
 }
 
 function drawOnCanvas() {
-  const selectedMeme = getSelectedMeme()
-  if (!selectedMeme) return
+  const selectedMeme = getSelectedMeme();
+  if (!selectedMeme) return;
 
-  const img = new Image()
+  const img = new Image();
 
-  img.src = selectedMeme.url
+  img.src = selectedMeme.url;
 
   img.onload = function () {
     const scaleFactor = Math.min(
       gCanvas.width / img.width,
       gCanvas.height / img.height
-    )
-    img.width *= scaleFactor
-    img.height *= scaleFactor
+    );
 
-    gCanvas.width = img.width
-    gCanvas.height = img.height
+    // Center the image inside the canvas
+    const imgWidth = img.width * scaleFactor;
+    const imgHeight = img.height * scaleFactor;
+    const imgX = (gCanvas.width - imgWidth) / 2;
+    const imgY = (gCanvas.height - imgHeight) / 2;
 
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
+    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+    gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
 
-    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
-
-    let lines = getAllLines()
+    let lines = getAllLines();
     lines.forEach((line) => {
-      gCtx.font = `${line.fontSize}px ${line.fontFamily}` // Set the font size and type
-      gCtx.fillStyle = `${line.color}` // Set the text color
-      gCtx.lineWidth = 2 // Set the stroke width
-      gCtx.strokeStyle = `${line.strokeColor}` // Set the stroke color
-      gCtx.textAlign = `${line.textAlign}` // Align text to the center
+      // Scale the font size in relation to the image size
+      const scaledFontSize = line.fontSize * scaleFactor;
 
-      const textX = gCanvas.width / 2 + line.pos.x
-      const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
+      gCtx.font = `${scaledFontSize}px ${line.fontFamily}`;
+      gCtx.fillStyle = `${line.color}`;
+      gCtx.lineWidth = 2;
+      gCtx.strokeStyle = `${line.strokeColor}`;
+      gCtx.textAlign = `${line.textAlign}`;
 
-      gCtx.fillText(line.text, textX, textY)
-      gCtx.strokeText(line.text, textX, textY)
-    })
-  }
+      // Adjust text position in relation to the centered image
+      const textX = gCanvas.width / 2 + line.pos.x;
+      const textY = gCanvas.height / 2 + line.pos.y + scaledFontSize / 2;
+
+      gCtx.fillText(line.text, textX, textY);
+      gCtx.strokeText(line.text, textX, textY);
+    });
+  };
 }
+
 
 function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
