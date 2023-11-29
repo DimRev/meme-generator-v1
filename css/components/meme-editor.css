@@ -1,4 +1,4 @@
-.meme-editor-section{
+.meme-editor-section {
   display: flex;
   justify-content: center;
   height: 80dvh;
@@ -7,9 +7,33 @@
 
 .meme-editor-section div {
   border: 1px solid black;
+}
+
+.meme-editor-section .canvas-container {
+  width: 100%;
+}
+
+.meme-editor-section .meme-editor-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 
 }
 
-.meme-editor-section .canvas-container { 
-  width: 50%;
+.meme-editor-controls .line-controls,
+.meme-editor-controls .font-controls, 
+.meme-editor-controls .sticker-controls, 
+.meme-editor-controls .meme-storage-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  
+  margin-block: 2rem;
+}
+.meme-editor-controls .line-controls .line-text {
+  grid-column: 1/-1;
+}
+
+.meme-editor-controls .font-controls .font-family-selector {
+  grid-column: 1/3;
 }
