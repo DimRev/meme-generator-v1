@@ -1,0 +1,21 @@
+.main-footer {
+  grid-row: 2;
+  grid-column: 1/-1 !important;
+
+  width: 100%;
+
+  padding: 3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background-color: var(--primary);
+
+  gap: 1rem;
+}
+
+.main-footer .logo {
+  font-size: 1.8rem;
+}

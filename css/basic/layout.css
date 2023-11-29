@@ -1,7 +1,7 @@
 .main-layout{
   display: grid;
   grid-template-columns: minmax(20px, 1fr) 980px minmax(20px, 1fr);
-  grid-template-rows: 50px 90dvh 50px;
+  grid-template-rows: minmax(100dvh, 1fr) 30px;
 }
 
 .main-layout:not(.full) > * {
