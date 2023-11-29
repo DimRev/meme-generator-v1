@@ -1,3 +1,5 @@
+'use strict'
+
 window.onload = onInit
 
 const gCanvas = document.querySelector('.meme-editor-canvas')
@@ -16,6 +18,7 @@ function generalEventListeners() {
   elGalleryMemes.forEach((elGalleryMeme) => {
     elGalleryMeme.addEventListener('click', function () {
       selectGalleryMeme(this)
+      refreshCanvas()
     })
   })
 
@@ -32,10 +35,10 @@ function refreshCanvas() {
   gCanvas.width = elCanvasContainer.offsetWidth
   gCanvas.height = elCanvasContainer.offsetHeight
 
-  selectedMeme = getSelectedMeme()
+  const selectedMeme = getSelectedMeme()
   if (!selectedMeme) return
 
-  renderImgToCanvas()
+  drawOnCanvas()
 }
 
 function renderGallery() {
@@ -69,36 +72,6 @@ function selectGalleryMeme(elGalleryMeme) {
   refreshCanvas()
 }
 
-function renderImgToCanvas() {
-  selectedMeme = getSelectedMeme()
-  if (!selectedMeme) return
-
-  const img = new Image()
-
-  // Set the image source to the selectedMeme.url
-  img.src = selectedMeme.url
-
-  // Wait for the image to load before rendering it on the canvas
-  img.onload = function () {
-    // Calculate the scaling factor to fit the image into the canvas
-    const scaleFactor = Math.min(
-      gCanvas.width / img.width,
-      gCanvas.height / img.height
-    )
-    // Resize the image
-    img.width *= scaleFactor
-    img.height *= scaleFactor
-
-    gCanvas.width = img.width
-    gCanvas.height = img.height
-    // Clear the canvas
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
-    
-    // Draw the resized and centered image onto the canvas
-    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
-  }
-}
-
 function selectSection(elSectionNav) {
   let selectedSection
   if (elSectionNav) selectedSection = elSectionNav.dataset.section
@@ -122,5 +95,46 @@ function selectSection(elSectionNav) {
       const elAboutSection = document.querySelector('.about-section')
       elAboutSection.classList.remove('hidden')
       break
+  }
+}
+
+function drawOnCanvas() {
+  const selectedMeme = getSelectedMeme()
+  if (!selectedMeme) return
+
+  const img = new Image()
+
+  img.src = selectedMeme.url
+
+  img.onload = function () {
+    const scaleFactor = Math.min(
+      gCanvas.width / img.width,
+      gCanvas.height / img.height
+    )
+
+    img.width *= scaleFactor
+    img.height *= scaleFactor
+
+    gCanvas.width = img.width
+    gCanvas.height = img.height
+
+    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
+
+    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
+
+    let lines = getAllLines()
+    lines.forEach((line) => {
+      gCtx.font = `${line.fontSize}px ${line.fontFamily}` // Set the font size and type
+      gCtx.fillStyle = `${line.color}` // Set the text color
+      gCtx.lineWidth = 2 // Set the stroke width
+      gCtx.strokeStyle = `Black` // Set the stroke color
+      gCtx.textAlign = `center` // Align text to the center
+
+      const textX = gCanvas.width / 2 + line.pos.x 
+      const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
+
+      gCtx.fillText(line.text, textX, textY)
+      gCtx.strokeText(line.text, textX, textY)
+    })
   }
 }
