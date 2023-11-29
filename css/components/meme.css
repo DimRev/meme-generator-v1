@@ -1,0 +1,11 @@
+.meme-section { 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5em;
+}
+
+.meme-section img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}

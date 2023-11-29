@@ -16,6 +16,7 @@ function _saveMemesToStorage() {
 function addMeme(selectedMeme, lines){
 
   const newMeme = {
+    id : getRandomId(),
     selectedMeme,
     lines,
   }
@@ -23,14 +24,17 @@ function addMeme(selectedMeme, lines){
   _saveMemesToStorage()
 }
 
-function deleteMeme(id) {
-
+function deleteMyMeme(id) {
+  const memeIdx = gMyMemes.findIndex((meme) => meme.id === id)
+  gMyMemes.splice(memeIdx, 1)
+  _saveMemesToStorage()
 }
 
-function getMeme(id) {
-
+function getMyMeme(id) {
+  return gMyMemes.find((meme) => meme.id === id)
 }
 
 function getAllMemes() {
+  return gMyMemes
 
 }

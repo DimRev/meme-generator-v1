@@ -7,6 +7,7 @@ const gCtx = gCanvas.getContext('2d')
 
 function onInit() {
   renderGallery()
+  renderMyMemes()
   onSelectSection(null)
   generalEventListeners()
   lineControlsEventListeners()
@@ -17,7 +18,7 @@ function onInit() {
 }
 
 function generalEventListeners() {
-  const elGalleryMemes = document.querySelectorAll('.gallery-meme')
+  const elGalleryMemes = document.querySelectorAll('.gallery-section-meme')
   const elSectionNavs = document.querySelectorAll('.section-nav')
 
   elGalleryMemes.forEach((elGalleryMeme) => {
@@ -163,7 +164,7 @@ function renderGallery() {
       return `
   <img src="${memeImage.url}" alt="${memeImage.keywords.join(
         ', '
-      )}" class="gallery-meme" data-id="${
+      )}" class="gallery-section-meme" data-id="${
         memeImage.id
       }" ${memeImage.keywords.map((keyword) => `data-keyword="${keyword}"`)}
       >`
@@ -174,8 +175,30 @@ function renderGallery() {
   elGallery.innerHTML = memeImagesHTML
 }
 
-function renderMyMemes(){
+function renderMyMemes() {
+  const myMemes = getAllMemes()
 
+  let myMemesHTML = myMemes
+    .map((myMeme) => {
+      return `
+  <div class="meme-section-meme-wrapper">
+  <button class="close-btn" onclick="onMemeRemoveBtn('${myMeme.id}')">X</button>
+  <img src="${
+    myMeme.selectedMeme.url
+  }" alt="${myMeme.selectedMeme.keywords.join(
+        ', '
+      )}" class="meme-section-meme" data-id="${
+        myMeme.id
+      }" ${myMeme.selectedMeme.keywords.map(
+        (keyword) => `data-keyword="${keyword}"`
+      )}
+      onclick="onMyMemeClick(this)">
+      <span>${myMeme.lines[0].text}</span>
+      </div>`
+    })
+    .join('')
+  const elMyMemes = document.querySelector('.meme-section')
+  elMyMemes.innerHTML = myMemesHTML
 }
 
 function renderLineText() {
@@ -379,4 +402,28 @@ function onSaveMeme() {
   const selectedMeme = getSelectedMeme()
   const lines = getAllLines()
   addMeme(selectedMeme, lines)
+
+  const elMemeNav = document.querySelector('.section-nav[data-section="meme"]')
+  onSelectSection(elMemeNav)
+  renderMyMemes()
+}
+
+function onMyMemeClick(elMyMeme) {
+  console.log(elMyMeme.dataset.id)
+  const myMeme = getMyMeme(elMyMeme.dataset.id)
+
+  setSelectedMeme(myMeme.selectedMeme, myMeme.lines)
+
+  const elGallerySection = document.querySelector('.meme-section')
+  elGallerySection.classList.add('hidden')
+
+  const elMemeEditorSection = document.querySelector('.meme-editor-section')
+  elMemeEditorSection.classList.remove('hidden')
+
+  refreshCanvas()
+}
+
+function onMemeRemoveBtn(memeId) { 
+  deleteMyMeme(memeId)
+  renderMyMemes()
 }
