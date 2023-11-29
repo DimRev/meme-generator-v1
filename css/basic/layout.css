@@ -6,6 +6,7 @@
 
 .main-layout:not(.full) > * {
   grid-column: 2;
+  justify-self: center;
 }
 
 .main-layout.full > * {

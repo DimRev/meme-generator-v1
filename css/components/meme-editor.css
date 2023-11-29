@@ -1,4 +1,15 @@
 .meme-editor-section{
   display: flex;
   justify-content: center;
+  height: 80dvh;
+  width: 80vw;
+}
+
+.meme-editor-section div {
+  border: 1px solid black;
+
+}
+
+.meme-editor-section .canvas-container { 
+  width: 50%;
 }
