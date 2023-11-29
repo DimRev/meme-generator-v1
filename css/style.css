@@ -1,15 +1,15 @@
 /* SETUP */
-@import url(../css/setup/variables.css);
+@import url(setup/variables.css);
 
 /* BASIC */
-@import url(../css/basic/helpers.css);
-@import url(../css/basic/base.css);
-@import url(../css/basic/layout.css);
+@import url(basic/helpers.css);
+@import url(basic/base.css);
+@import url(basic/layout.css);
 
 /* COMPONENTS */
-@import url(../css/components/meme-editor.css);
-@import url(../css/components/gallery.css);
+@import url(components/meme-editor.css);
+@import url(components/gallery.css);
 
 /* MEDIA QUERYS */
 
-@import url(../css/setup/mq.css);
+@import url(setup/mq.css);
