@@ -1,6 +1,6 @@
 'use strict'
 
-const glines = [
+const gLines = [
   {
     text: 'Place holder Text 1',
     color: 'White',
@@ -29,22 +29,41 @@ function setSelectedMeme(selectedMeme) {
 
 function selectNextLine() {
   gSeletedLineIdx++
-  if (gSeletedLineIdx >= glines.length) {
+  if (gSeletedLineIdx >= gLines.length) {
     gSeletedLineIdx = 0
   }
 }
 
 function getLine() {
-  return glines[gSeletedLineIdx]
+  return gLines[gSeletedLineIdx]
 }
 
 function getAllLines() {
-  return glines
+  return gLines
 }
 
 function setLine(text, color, fontSize, pos) {
-  glines[gSeletedLineIdx].text = text || glines[gSeletedLineIdx].text
-  glines[gSeletedLineIdx].color = color || glines[gSeletedLineIdx].color
-  glines[gSeletedLineIdx].fontSize = fontSize || glines[gSeletedLineIdx].fontSize
-  glines[gSeletedLineIdx].pos = pos || glines[gSeletedLineIdx].pos
+  gLines[gSeletedLineIdx].text = text || gLines[gSeletedLineIdx].text
+  gLines[gSeletedLineIdx].color = color || gLines[gSeletedLineIdx].color
+  gLines[gSeletedLineIdx].fontSize = fontSize || gLines[gSeletedLineIdx].fontSize
+  gLines[gSeletedLineIdx].pos = pos || gLines[gSeletedLineIdx].pos
+}
+
+function addLine() {
+  gLines.push({
+    text: 'Place holder Text',
+    color: 'White',
+    fontSize: 60,
+    fontFamily: 'Impact',
+    pos: { x: 0, y: 0 },
+  })
+  gSeletedLineIdx = gLines.length - 1
+}
+
+function removeLine() {
+  gLines.splice(gSeletedLineIdx, 1)
+  gSeletedLineIdx++
+  if (gSeletedLineIdx >= gLines.length) {
+    gSeletedLineIdx = 0
+  } 
 }

@@ -51,22 +51,24 @@ function lineControlsEventListeners() {
     handleLineMove('up')
     refreshCanvas()
   })
-  
+
   const elMoveDownBtn = document.querySelector('.move-down-btn')
   elMoveDownBtn.addEventListener('click', function () {
     handleLineMove('down')
     refreshCanvas()
   })
-  
+
   const elAddLineBtn = document.querySelector('.add-line-btn')
   elAddLineBtn.addEventListener('click', function () {
     addLine()
+    renderLineText()
     refreshCanvas()
   })
-  
+
   const elDeleteLineBtn = document.querySelector('.delete-line-btn')
   elDeleteLineBtn.addEventListener('click', function () {
-    deleteLine()
+    removeLine()
+    renderLineText()
     refreshCanvas()
   })
 }
@@ -106,7 +108,11 @@ function renderLineText() {
   const line = getLine()
 
   const elLineTextInput = document.querySelector('.line-text')
-  elLineTextInput.value = line.text
+  if (!line) {
+    elLineTextInput.value = 'place holder text'
+  } else {
+    elLineTextInput.value = line.text
+  }
 }
 
 function selectGalleryMeme(elGalleryMeme) {
@@ -161,7 +167,6 @@ function drawOnCanvas() {
       gCanvas.width / img.width,
       gCanvas.height / img.height
     )
-
     img.width *= scaleFactor
     img.height *= scaleFactor
 
@@ -189,11 +194,11 @@ function drawOnCanvas() {
   }
 }
 
-function handleLineText (){
+function handleLineText() {
   const elLineTextInput = document.querySelector('.line-text')
   let lineText = elLineTextInput.value
-  console.log(lineText);
-  if (!lineText) lineText = ' ' 
+  console.log(lineText)
+  if (!lineText) lineText = ' '
   setLine(lineText)
   refreshCanvas()
 }
