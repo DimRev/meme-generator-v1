@@ -7,3 +7,10 @@ body {
   height: 100dvh;
 }
 
+.hidden {
+  display: none;
+}
+
+.hidden > *{
+  display: none;
+}
