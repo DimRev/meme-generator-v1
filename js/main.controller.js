@@ -6,6 +6,7 @@ const gCtx = gCanvas.getContext('2d')
 function onInit() {
   renderGallery()
   generalEventListeners()
+  selectSection(null)
 
   window.addEventListener('resize', refreshCanvas)
 }
@@ -33,7 +34,8 @@ function refreshCanvas() {
 
   selectedMeme = getSelectedMeme()
   if (!selectedMeme) return
-  renderImg()
+
+  renderImgToCanvas()
 }
 
 function renderGallery() {
@@ -67,7 +69,7 @@ function selectGalleryMeme(elGalleryMeme) {
   refreshCanvas()
 }
 
-function renderImg() {
+function renderImgToCanvas() {
   selectedMeme = getSelectedMeme()
   if (!selectedMeme) return
 
@@ -83,27 +85,25 @@ function renderImg() {
       gCanvas.width / img.width,
       gCanvas.height / img.height
     )
+    // Resize the image
+    img.width *= scaleFactor
+    img.height *= scaleFactor
 
-    // Calculate the centered position
-    const centerX = (gCanvas.width - img.width * scaleFactor) / 2
-    const centerY = (gCanvas.height - img.height * scaleFactor) / 2
-
+    gCanvas.width = img.width
+    gCanvas.height = img.height
     // Clear the canvas
     gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
-
+    
     // Draw the resized and centered image onto the canvas
-    gCtx.drawImage(
-      img,
-      centerX,
-      centerY,
-      img.width * scaleFactor,
-      img.height * scaleFactor
-    )
+    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
   }
 }
 
 function selectSection(elSectionNav) {
-  const selectedSection = elSectionNav.dataset.section || 'gallery'
+  let selectedSection
+  if (elSectionNav) selectedSection = elSectionNav.dataset.section
+  else selectedSection = 'gallery'
+
   const elSections = document.querySelectorAll('section')
   elSections.forEach((elSection) => {
     elSection.classList.add('hidden')

@@ -1,5 +1,6 @@
 let gSelectedMeme = null
 
+
 function getSelectedMeme() {
   return gSelectedMeme
 }
