@@ -269,38 +269,44 @@ function drawOnCanvas() {
   img.src = selectedMeme.url
 
   img.onload = function () {
-    const scaleFactor = Math.min(
-      gCanvas.width / img.width,
-      gCanvas.height / img.height
-    )
+    function animate() {
+      const scaleFactor = Math.min(
+        gCanvas.width / img.width,
+        gCanvas.height / img.height
+      )
 
-    // Center the image inside the canvas
-    const imgWidth = img.width * scaleFactor
-    const imgHeight = img.height * scaleFactor
-    const imgX = (gCanvas.width - imgWidth) / 2
-    const imgY = (gCanvas.height - imgHeight) / 2
+      // Center the image inside the canvas
+      const imgWidth = img.width * scaleFactor
+      const imgHeight = img.height * scaleFactor
+      const imgX = (gCanvas.width - imgWidth) / 2
+      const imgY = (gCanvas.height - imgHeight) / 2
 
-    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
-    gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
+      gCtx.beginPath()
+      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
+      gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
 
-    let lines = getAllLines()
-    lines.forEach((line) => {
-      // Scale the font size in relation to the image size
-      const scaledFontSize = line.fontSize * scaleFactor
+      let lines = getAllLines()
+      lines.forEach((line) => {
+        gCtx.beginPath()
+        // Scale the font size in relation to the image size
+        const scaledFontSize = line.fontSize * scaleFactor
 
-      gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
-      gCtx.fillStyle = `${line.color}`
-      gCtx.lineWidth = 2
-      gCtx.strokeStyle = `${line.strokeColor}`
-      gCtx.textAlign = `${line.textAlign}`
+        gCtx.font = `${line.fontSize}px ${line.fontFamily}`
+        gCtx.fillStyle = `${line.color}`
+        gCtx.lineWidth = 2
+        gCtx.strokeStyle = `${line.strokeColor}`
+        gCtx.textAlign = `${line.textAlign}`
 
-      // Adjust text position in relation to the centered image
-      const textX = gCanvas.width / 2 + line.pos.x
-      const textY = gCanvas.height / 2 + line.pos.y + scaledFontSize / 2
+        // Adjust text position in relation to the centered image
+        const textX = gCanvas.width / 2 + line.pos.x
+        const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
 
-      gCtx.fillText(line.text, textX, textY)
-      gCtx.strokeText(line.text, textX, textY)
-    })
+        gCtx.fillText(line.text, textX, textY)
+        gCtx.strokeText(line.text, textX, textY)
+      })
+      requestAnimationFrame(animate)           //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש 
+    }
+    animate()
   }
 }
 
