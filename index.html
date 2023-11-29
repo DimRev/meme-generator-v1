@@ -1,17 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <title>Meme Generator</title>
-</head>
-<body>
-  <header></header>
-  <main></main>
-  <footer></footer>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Meme Generator</title>
+  </head>
+  <body class="main-layout">
+    <header class="main-header"><div class="logo">Placeholder</div></header>
+    <main class="main-content">
+      <!-- MEME GALLERY SECTION -->
+      <section class="gallery-section"></section>
 
-  <script src="js/service/main.service.js"></script>
-  <script src="js/main.controller.js"></script>
-</body>
+      <!-- SAVED MEMES SECTION -->
+      <section class="meme-section"></section>
+
+      <!-- ABOUT SECTION -->
+      <section class="about-section"></section>
+
+      <!-- MEME EDITOR SECTION -->
+      <section class="meme-editor-section">
+        <div class="canvas-container">
+          <canvas class="meme-editor-canvas"></canvas>
+        </div>
+        <div class="meme-editor-controls">
+          <div class="line-controls">
+            <input class="" type="text" placeholder="Line text" />
+            <button class="switch-line-btn">switch line</button>
+            <button class="move-up-btn">move up</button>
+            <button class="move-down-btn">move down</button>
+            <button class="add-line-btn">add line</button>
+            <button class="delete-line-btn">delete line</button>
+          </div>
+
+          <div class="font-controls">
+            <button class="rise-font-size-btn">+A</button>
+            <button class="lower-font-size-btn">-A</button>
+            <button class="line-pos-left-btn">pos left</button>
+            <button class="line-pos-center-btn">pos center</button>
+            <button class="line-pos-right-btn">pos right</button>
+            <select class="font-family-selector" name="font-family-selector">
+              <option value="impact">IMPACT</option>
+              <option value="arial">arial</option>
+            </select>
+            <input class="font-color" type="color" />
+            <input class="stroke-color" type="color" />
+          </div>
+
+          <div class="stickers"></div>
+          <button class="save-meme">save</button>
+          <button class="download-meme">download</button>
+          <button class="share-meme">share</button>
+        </div>
+      </section>
+    </main>
+    <footer class="main-footer"><div class="logo">placeholder</div></footer>
+
+    <script src="js/service/main.service.js"></script>
+    <script src="js/main.controller.js"></script>
+  </body>
 </html>
