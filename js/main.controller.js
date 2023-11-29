@@ -16,7 +16,6 @@ function onInit() {
   lineControlsEventListeners()
   fontControlsEventListeners()
   storageControlsEventListeners()
-  
 }
 
 function generalEventListeners() {
@@ -27,10 +26,10 @@ function generalEventListeners() {
     elGalleryMeme.addEventListener('click', function () {
       onSelectGalleryMeme(this)
       renderLineText()
-      
-      setTimeout(() => {
+
+      for (let i = 0; i < 10; i++) {
         refreshCanvas()
-      }, 50);
+      }
     })
   })
 
@@ -42,11 +41,11 @@ function generalEventListeners() {
 }
 
 function lineControlsEventListeners() {
-  const elLineTextInput = document.querySelector('.line-text') 
-  const elSwitchLineBtn = document.querySelector('.switch-line-btn') 
-  const elMoveUpBtn = document.querySelector('.move-up-btn') 
-  const elMoveDownBtn = document.querySelector('.move-down-btn') 
-  const elAddLineBtn = document.querySelector('.add-line-btn') 
+  const elLineTextInput = document.querySelector('.line-text')
+  const elSwitchLineBtn = document.querySelector('.switch-line-btn')
+  const elMoveUpBtn = document.querySelector('.move-up-btn')
+  const elMoveDownBtn = document.querySelector('.move-down-btn')
+  const elAddLineBtn = document.querySelector('.add-line-btn')
   const elDeleteLineBtn = document.querySelector('.delete-line-btn')
 
   elLineTextInput.addEventListener('input', function () {
@@ -431,8 +430,7 @@ function onMyMemeClick(elMyMeme) {
   refreshCanvas()
 }
 
-
-function onMemeRemoveBtn(memeId) { 
+function onMemeRemoveBtn(memeId) {
   deleteMyMeme(memeId)
   renderMyMemes()
 }
