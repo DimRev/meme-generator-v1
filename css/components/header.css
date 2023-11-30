@@ -6,25 +6,28 @@
   left: 0;
   right: 0;
 
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
   width: 100%;
-  justify-content: space-between;
   align-items: center;
 
   padding: 1rem;
 
   background-color: var(--primary);
+
 }
 
 .main-header .logo {
   font-size: 2.2rem;
-  width: 35%;
+
+  justify-self: flex-start;
 
   margin-inline-start: 2rem;
 }
 
 .main-header .main-nav{
   font-size: 1.4rem;
-  width: 35%;
 
   margin-inline-end: 2rem;
 }
@@ -32,4 +35,15 @@
 .main-header .main-nav .main-nav-list {
   display: flex;
   justify-content: space-between;
+}
+
+.main-header .meme-filter {
+  grid-column: 1/-1;
+
+  margin-block-start: 3rem;
+}
+
+.main-header .meme-filter .filter-nav-list {
+  display: flex;
+  justify-content: space-around;
 }

@@ -21,6 +21,7 @@ function onInit() {
 function generalEventListeners() {
   const elGalleryMemes = document.querySelectorAll('.gallery-section-meme')
   const elSectionNavs = document.querySelectorAll('.section-nav')
+  const elFilterNavs = document.querySelectorAll('.filter-nav')
 
   elGalleryMemes.forEach((elGalleryMeme) => {
     elGalleryMeme.addEventListener('click', function () {
@@ -36,6 +37,12 @@ function generalEventListeners() {
   elSectionNavs.forEach((elSectionNav) => {
     elSectionNav.addEventListener('click', function () {
       onSelectSection(this)
+    })
+  })
+
+  elFilterNavs.forEach((elFilterNav) => {
+    elFilterNav.addEventListener('click', function () {
+      onSelectFilterNav(this)
     })
   })
 }
@@ -439,4 +446,10 @@ function onMyMemeClick(elMyMeme) {
 function onMemeRemoveBtn(memeId) {
   deleteMyMeme(memeId)
   renderMyMemes()
+}
+
+function onSelectFilterNav(elFilterNav) {
+  let filter = elFilterNav.dataset.filter
+  setFilter(filter)
+  renderGallery()
 }
