@@ -1,5 +1,6 @@
 @media (width <= 480px) {
   body {
+    position: relative;
     background-color: red;
   }
 
@@ -9,7 +10,24 @@
     grid-template-columns: minmax(5px, 1fr) minmax(200px, 400px) minmax(5px, 1fr);
   }
   /* MAIN HEADER */
+  .main-header .main-nav{
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    height: 100%;
+
+    background-color: aliceblue;
+  }
   
+  .main-header .main-nav .main-nav-list {
+    text-align: center;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.2rem;
+  }
   /* GALLERY SECTION */
   .gallery-section { 
     grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
