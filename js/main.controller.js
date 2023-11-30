@@ -47,20 +47,6 @@ function generalEventListeners() {
   const elSectionNavs = document.querySelectorAll('.section-nav')
   const elFilterNavs = document.querySelectorAll('.filter-nav')
 
-  elGalleryMemes.forEach((elGalleryMeme) => {
-    elGalleryMeme.addEventListener('click', function () {
-      onSelectGalleryMeme(this)
-      renderLineText()
-
-      const elMemeFilter = document.querySelector('.meme-filter')
-      elMemeFilter.classList.add('hidden')
-
-      for (let i = 0; i < 1000; i++) {
-        refreshCanvas()
-      }
-    })
-  })
-
   elSectionNavs.forEach((elSectionNav) => {
     elSectionNav.addEventListener('click', function () {
       onSelectSection(this)
@@ -226,7 +212,7 @@ function renderGallery() {
       )}" class="gallery-section-meme" data-id="${
         memeImage.id
       }" ${memeImage.keywords.map((keyword) => `data-keyword="${keyword}"`)}
-      >`
+      onclick="onGallerySectiomMeme(this)">`
     })
     .join('')
 
@@ -241,7 +227,7 @@ function renderMyMemes() {
     .map((myMeme) => {
       return `
   <div class="meme-section-meme-wrapper">
-  <button class="close-btn" onclick="onMemeRemoveBtn('${myMeme.id}')">X</button>
+  <button class="meme-close-btn" onclick="onMemeRemoveBtn('${myMeme.id}')">X</button>
   <img src="${
     myMeme.selectedMeme.url
   }" alt="${myMeme.selectedMeme.keywords.join(
@@ -252,7 +238,7 @@ function renderMyMemes() {
         (keyword) => `data-keyword="${keyword}"`
       )}
       onclick="onMyMemeClick(this)">
-      <span>${myMeme.lines[0].text}</span>
+      <p class="meme-text">${myMeme.lines[0].text}</p>
       </div>`
     })
     .join('')
@@ -431,6 +417,18 @@ function onSaveMeme() {
   const elMemeNav = document.querySelector('.section-nav[data-section="meme"]')
   onSelectSection(elMemeNav)
   renderMyMemes()
+}
+
+function onGallerySectiomMeme(elImage) {
+  onSelectGalleryMeme(elImage)
+  renderLineText()
+
+  const elMemeFilter = document.querySelector('.meme-filter')
+  elMemeFilter.classList.add('hidden')
+
+  for (let i = 0; i < 1000; i++) {
+    refreshCanvas()
+  }
 }
 
 function onMyMemeClick(elMyMeme) {
