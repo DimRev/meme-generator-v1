@@ -28,6 +28,7 @@ function onInit() {
   generalEventListeners()
   lineControlsEventListeners()
   fontControlsEventListeners()
+  stickerControlsEventListeners()
   storageControlsEventListeners()
 }
 
@@ -154,6 +155,15 @@ function fontControlsEventListeners() {
   elStrokeColor.addEventListener('change', function () {
     onStrokeColor(elStrokeColor.value)
     refreshCanvas()
+  })
+}
+
+function stickerControlsEventListeners() {
+  const elStickerBtns = document.querySelectorAll('.sticker-btn')
+  elStickerBtns.forEach((elStickerBtn) => {
+    elStickerBtn.addEventListener('click', function () {
+      onSelectSticker(this)
+    })
   })
 }
 
@@ -388,6 +398,11 @@ function onFontFamily() {
     getLine().textAlign,
     elFontFamily.value
   )
+}
+
+function onSelectSticker(elStickerBtn) {
+  const sticker = elStickerBtn.dataset.sticker
+  addLine(sticker)
 }
 
 function onSaveMeme() {

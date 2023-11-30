@@ -83,9 +83,9 @@ function setLine(
     strokeColor || gLines[gSeletedLineIdx].strokeColor
 }
 
-function addLine() {
+function addLine(text) {
   gLines.push({
-    text: 'Place holder Text',
+    text: text || 'Place holder Text',
     color: 'White',
     fontSize: 60,
     fontFamily: 'Impact',
