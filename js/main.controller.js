@@ -57,11 +57,14 @@ function generalEventListeners() {
   })
 
   elMoreFiltersBtn.addEventListener('click', function () {
-    renderMemeFilters()
+    const elMemeFilter = document.querySelector('.meme-filter')
+
+    if(elMemeFilter.classList.contains('active')) renderMemeFilters(5)
+    else renderMemeFilters()
+
     resizeFilterListItems()
 
-    const elMemeFilter = document.querySelector('.meme-filter')
-    elMemeFilter.classList.add('active')
+    elMemeFilter.classList.toggle('active')
   })
 }
 
@@ -482,6 +485,9 @@ function onFilterNav(elFilterNav) {
   onSelectFilterNav(elFilterNav)
   renderMemeFilters(5)
   resizeFilterListItems()
+
+  const elMemeFilter = document.querySelector('.meme-filter')
+  elMemeFilter.classList.remove('active')
 }
 
 function resizeFilterListItems() {
