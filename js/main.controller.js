@@ -43,7 +43,6 @@ function onInit() {
 //EVENT LISTENER ACTIVATIONS //
 
 function generalEventListeners() {
-  const elGalleryMemes = document.querySelectorAll('.gallery-section-meme')
   const elSectionNavs = document.querySelectorAll('.section-nav')
   const elFilterNavs = document.querySelectorAll('.filter-nav')
 
@@ -192,13 +191,13 @@ function storageControlsEventListeners() {
 // RENDER HANDLERS //
 
 function refreshCanvas() {
-  const elCanvasContainer = document.querySelector('.canvas-container')
-  gCanvas.width = elCanvasContainer.offsetWidth
-  gCanvas.height = elCanvasContainer.offsetHeight
-
   const selectedMeme = getSelectedMeme()
-  if (!selectedMeme) return
-
+  if (!selectedMeme) {
+    const elCanvasContainer = document.querySelector('.canvas-container')
+    gCanvas.width = elCanvasContainer.offsetWidth
+    gCanvas.height = elCanvasContainer.offsetHeight
+    return
+  }
   drawOnCanvas()
 }
 
@@ -316,13 +315,13 @@ function onLineMove(direction) {
   switch (direction) {
     case 'up':
       setLine(getLine().text, getLine().color, getLine().fontSize, {
-        x: 0,
+        x: getLine().pos.x,
         y: getLine().pos.y - 10,
       })
       break
     case 'down':
       setLine(getLine().text, getLine().color, getLine().fontSize, {
-        x: 0,
+        x: getLine().pos.x,
         y: getLine().pos.y + 10,
       })
       break
@@ -539,7 +538,7 @@ function drawOnCanvas() {
 
           // Reset the line dash to default
           gCtx.setLineDash([])
-        }
+        } 
       })
       requestAnimationFrame(animate) //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש
     }
