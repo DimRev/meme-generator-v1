@@ -1,11 +1,45 @@
-.meme-section { 
+.meme-section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 0.5em;
 }
 
-.meme-section img {
+.meme-section-meme-wrapper {
+  position: relative;
+}
+
+.meme-section-meme-wrapper img {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+}
+
+.meme-section-meme-wrapper .meme-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+
+.meme-section-meme-wrapper .meme-text {
+  z-index: 10;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: 0;
+  padding: 2rem;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease-in-out;
+
+  background-color: var(--primary);
+}
+
+.meme-section-meme-wrapper:hover .meme-text {
+  opacity: 1;
 }
