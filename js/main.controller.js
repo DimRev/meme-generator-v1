@@ -4,9 +4,17 @@ window.onload = onInit
 
 let isDragging = false
 let dragStartX, dragStartY
+let gIntervalId
 
 const gCanvas = document.querySelector('.meme-editor-canvas')
 const gCtx = gCanvas.getContext('2d')
+
+window.addEventListener('mouseup', function () {
+  clearInterval(gIntervalId)
+})
+window.addEventListener('touchend', function () {
+  clearInterval(gIntervalId)
+})
 
 gCanvas.addEventListener('mousedown', onMouseDownCanvas)
 gCanvas.addEventListener('mousemove', onMouseMoveCanvas)
@@ -85,14 +93,18 @@ function lineControlsEventListeners() {
     refreshCanvas()
   })
 
-  elMoveUpBtn.addEventListener('click', function () {
-    onLineMove('up')
-    refreshCanvas()
+  elMoveUpBtn.addEventListener('mousedown', function () {
+    gIntervalId = setInterval(function () { 
+      onLineMove('up')
+      refreshCanvas()
+    }, 50)
   })
 
-  elMoveDownBtn.addEventListener('click', function () {
-    onLineMove('down')
-    refreshCanvas()
+  elMoveDownBtn.addEventListener('mousedown', function () {
+    gIntervalId = setInterval(function () {
+      onLineMove('down')
+      refreshCanvas()
+    }, 50)
   })
 
   elAddLineBtn.addEventListener('click', function () {
@@ -118,14 +130,20 @@ function fontControlsEventListeners() {
   const elFontColor = document.querySelector('.font-color')
   const elStrokeColor = document.querySelector('.stroke-color')
 
-  elRiseFontSizeBtn.addEventListener('click', function () {
-    onFontSize('rise')
-    refreshCanvas()
+ 
+
+  elRiseFontSizeBtn.addEventListener('mousedown', function () {
+    gIntervalId = setInterval(function () {
+      onFontSize('rise')
+      refreshCanvas()
+    }, 50)
   })
 
-  elLowerFontSizeBtn.addEventListener('click', function () {
+  elLowerFontSizeBtn.addEventListener('mousedown', function () {
+    gIntervalId = setInterval(function () {
     onFontSize('lower')
     refreshCanvas()
+    }, 50)
   })
 
   elLinePosLeftBtn.addEventListener('click', function () {
