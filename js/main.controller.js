@@ -2,8 +2,15 @@
 
 window.onload = onInit
 
+let isDragging = false;
+let dragStartX, dragStartY;
+
 const gCanvas = document.querySelector('.meme-editor-canvas')
 const gCtx = gCanvas.getContext('2d')
+
+gCanvas.addEventListener('mousedown', onMouseDownCanvas);
+gCanvas.addEventListener('mousemove', onMouseMoveCanvas);
+gCanvas.addEventListener('mouseup', onMouseUpCanvas);
 
 window.addEventListener('resize', refreshCanvas)
 
@@ -11,12 +18,16 @@ function onInit() {
   renderGallery()
   renderMyMemes()
   refreshCanvas()
-  onSelectSection(null)
+  onSelectSection()
+  resizeFilterListItems()
+
   generalEventListeners()
   lineControlsEventListeners()
   fontControlsEventListeners()
   storageControlsEventListeners()
 }
+
+//EVENT LISTENER ACTIVATIONS //
 
 function generalEventListeners() {
   const elGalleryMemes = document.querySelectorAll('.gallery-section-meme')
@@ -275,64 +286,9 @@ function onSelectSection(elSectionNav) {
   }
 }
 
-function drawOnCanvas() {
-  const elCanvasContainer = document.querySelector('.canvas-container')
-  gCanvas.width = elCanvasContainer.offsetWidth
-  gCanvas.height = elCanvasContainer.offsetHeight
-
-  const selectedMeme = getSelectedMeme()
-  if (!selectedMeme) return
-
-  const img = new Image()
-
-  img.src = selectedMeme.url
-
-  img.onload = function () {
-    function animate() {
-      const scaleFactor = Math.min(
-        gCanvas.width / img.width,
-        gCanvas.height / img.height
-      )
-
-      // Center the image inside the canvas
-      const imgWidth = img.width * scaleFactor
-      const imgHeight = img.height * scaleFactor
-      const imgX = (gCanvas.width - imgWidth) / 2
-      const imgY = (gCanvas.height - imgHeight) / 2
-
-      gCtx.beginPath()
-      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
-      gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
-
-      let lines = getAllLines()
-      lines.forEach((line) => {
-        gCtx.beginPath()
-        // Scale the font size in relation to the image size
-        const scaledFontSize = line.fontSize * scaleFactor
-
-        gCtx.font = `${line.fontSize}px ${line.fontFamily}`
-        gCtx.fillStyle = `${line.color}`
-        gCtx.lineWidth = 2
-        gCtx.strokeStyle = `${line.strokeColor}`
-        gCtx.textAlign = `${line.textAlign}`
-
-        // Adjust text position in relation to the centered image
-        const textX = gCanvas.width / 2 + line.pos.x
-        const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
-
-        gCtx.fillText(line.text, textX, textY)
-        gCtx.strokeText(line.text, textX, textY)
-      })
-      requestAnimationFrame(animate)           //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש 
-    }
-    animate()
-  }
-}
-
 function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
   let lineText = elLineTextInput.value
-  console.log(lineText)
   if (!lineText) lineText = ' '
   setLine(lineText)
   refreshCanvas()
@@ -463,5 +419,154 @@ function onMemeRemoveBtn(memeId) {
 function onSelectFilterNav(elFilterNav) {
   let filter = elFilterNav.dataset.filter
   setFilter(filter)
+  addFilterCount(filter)
   renderGallery()
+}
+
+function resizeFilterListItems(){
+  const elFilterNavs = document.querySelectorAll('.filter-nav')
+  elFilterNavs.forEach((elFilterNav) => {
+    let filter = elFilterNav.dataset.filter
+    let fontSize = 1 + getFilterCount(filter)/50 + 'rem'
+    elFilterNav.style.fontSize = fontSize
+  })
+}
+
+// CANVAS HANDLERS //
+
+function drawOnCanvas() {
+  const elCanvasContainer = document.querySelector('.canvas-container')
+  gCanvas.width = elCanvasContainer.offsetWidth
+  gCanvas.height = elCanvasContainer.offsetHeight
+
+  const selectedMeme = getSelectedMeme()
+  if (!selectedMeme) return
+
+  const img = new Image()
+
+  img.src = selectedMeme.url
+
+  img.onload = function () {
+    function animate() {
+      const scaleFactor = Math.min(
+        gCanvas.width / img.width,
+        gCanvas.height / img.height
+      )
+
+      // Center the image inside the canvas
+      const imgWidth = img.width * scaleFactor
+      const imgHeight = img.height * scaleFactor
+      const imgX = (gCanvas.width - imgWidth) / 2
+      const imgY = (gCanvas.height - imgHeight) / 2
+
+      gCtx.beginPath()
+      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
+      gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
+
+      let lines = getAllLines()
+      lines.forEach((line, index) => {
+        gCtx.beginPath()
+
+        const isSelected = index === getSelectedLineIdx()
+
+        // Scale the font size in relation to the image size
+        const scaledFontSize = line.fontSize * scaleFactor
+
+        gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
+        gCtx.fillStyle = `${line.color}`
+        gCtx.lineWidth = 2
+        gCtx.strokeStyle = `${line.strokeColor}`
+        gCtx.textAlign = `${line.textAlign}`
+
+        // Adjust text position in relation to the centered image
+        const textX = gCanvas.width / 2 + line.pos.x
+        const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
+
+        gCtx.fillText(line.text, textX, textY)
+        gCtx.strokeText(line.text, textX, textY)
+
+        if(isSelected) {
+          const textWidth = gCtx.measureText(line.text).width;
+          const rectX = textX - textWidth / 2 - 10;
+          const rectY = textY - scaledFontSize - 5;
+          const rectWidth = textWidth + 20;
+          const rectHeight = scaledFontSize + 20;
+        
+          gCtx.beginPath();
+          gCtx.strokeStyle = 'White';
+          gCtx.lineWidth = 4;
+        
+          // Set the line dash for a dotted line effect
+          gCtx.setLineDash([5, 5]);
+        
+          // Draw the dotted line rectangle
+          gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+        
+          // Reset the line dash to default
+          gCtx.setLineDash([]);
+        }
+
+      })
+      requestAnimationFrame(animate)           //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש 
+    }
+    animate()
+  }
+}
+
+function onMouseDownCanvas(e) {
+  const mouseX = e.clientX - gCanvas.getBoundingClientRect().left;
+  const mouseY = e.clientY - gCanvas.getBoundingClientRect().top;
+
+  // Check if the mouse is over any text line
+  getAllLines().forEach((line, index) => {
+    const textX = gCanvas.width / 2 + line.pos.x;
+    const textY = gCanvas.height / 2 + line.pos.y;
+
+    const textWidth = gCtx.measureText(line.text).width;
+    const rectX = textX - textWidth / 2 - 10;
+    const rectY = textY - line.fontSize - 5;
+    const rectWidth = textWidth + 20;
+    const rectHeight = line.fontSize + 20;
+
+    if (
+      mouseX >= rectX &&
+      mouseX <= rectX + rectWidth &&
+      mouseY >= rectY &&
+      mouseY <= rectY + rectHeight
+    ) {
+      // Set the dragging state and store the initial mouse coordinates
+      isDragging = true;
+      dragStartX = mouseX - textX;
+      dragStartY = mouseY - textY;
+
+      // Set the selected line index
+      gSeletedLineIdx = index;
+
+      // Redraw the canvas
+      drawOnCanvas();
+    }
+  });
+}
+
+function onMouseMoveCanvas(e) {
+  if (isDragging) {
+    const mouseX = e.clientX - gCanvas.getBoundingClientRect().left;
+    const mouseY = e.clientY - gCanvas.getBoundingClientRect().top;
+
+    // Update the position of the selected line based on mouse movement
+    const newTextX = mouseX - dragStartX - gCanvas.width / 2;
+    const newTextY = mouseY - dragStartY - gCanvas.height / 2;
+
+    // Update the position of the selected line in the lines array
+    getAllLines()[gSeletedLineIdx].pos.x = newTextX;
+    getAllLines()[gSeletedLineIdx].pos.y = newTextY;
+
+    // Redraw the canvas
+    drawOnCanvas();
+  }
+}
+
+function onMouseUpCanvas() {
+  // Reset the dragging state
+  isDragging = false;
 }

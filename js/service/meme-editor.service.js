@@ -4,9 +4,6 @@ let gLines = []
 let gSelectedMeme = null
 let gSeletedLineIdx = 0
 
-function getSelectedMeme() {
-  return gSelectedMeme
-}
 
 function setSelectedMeme(selectedMeme, lines) {
   gSelectedMeme = selectedMeme
@@ -36,11 +33,20 @@ function setSelectedMeme(selectedMeme, lines) {
   }
 }
 
+function getSelectedMeme() {
+  return gSelectedMeme
+}
+
+
 function selectNextLine() {
   gSeletedLineIdx++
   if (gSeletedLineIdx >= gLines.length) {
     gSeletedLineIdx = 0
   }
+}
+
+function getSelectedLineIdx() {
+  return gSeletedLineIdx
 }
 
 function getLine() {
