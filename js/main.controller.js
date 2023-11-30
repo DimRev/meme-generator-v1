@@ -28,6 +28,9 @@ function generalEventListeners() {
       onSelectGalleryMeme(this)
       renderLineText()
 
+      const elMemeFilter = document.querySelector('.meme-filter')
+      elMemeFilter.classList.add('hidden') 
+
       for (let i = 0; i < 1000; i++) {
         refreshCanvas()
       }
@@ -43,6 +46,7 @@ function generalEventListeners() {
   elFilterNavs.forEach((elFilterNav) => {
     elFilterNav.addEventListener('click', function () {
       onSelectFilterNav(this)
+      resizeFilterListItems(this)
     })
   })
 }
@@ -156,6 +160,8 @@ function storageControlsEventListeners() {
   })
 }
 
+// RENDER HANDLERS //
+
 function refreshCanvas() {
   const elCanvasContainer = document.querySelector('.canvas-container')
   gCanvas.width = elCanvasContainer.offsetWidth
@@ -224,6 +230,8 @@ function renderLineText() {
   }
 }
 
+// EVENT HANDLERS //
+
 function onSelectGalleryMeme(elGalleryMeme) {
   let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
   setSelectedMeme(selectedMeme)
@@ -242,6 +250,9 @@ function onSelectSection(elSectionNav) {
   if (elSectionNav) selectedSection = elSectionNav.dataset.section
   else selectedSection = 'gallery'
 
+  const elMemeFilter = document.querySelector('.meme-filter')
+  elMemeFilter.classList.add('hidden') 
+
   const elSections = document.querySelectorAll('section')
   elSections.forEach((elSection) => {
     elSection.classList.add('hidden')
@@ -251,6 +262,7 @@ function onSelectSection(elSectionNav) {
     case 'gallery':
       const elGallerySection = document.querySelector('.gallery-section')
       elGallerySection.classList.remove('hidden')
+      elMemeFilter.classList.remove('hidden')
       break
     case 'meme':
       const elMemeSection = document.querySelector('.meme-section')

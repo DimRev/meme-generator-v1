@@ -43,4 +43,12 @@ function setFilter(filter) {
   gFilter = filter
 }
 
+function addFilterCount(filter) {
+  keywordVisits[filter]++
+}
+
+function getFilterCount(filter) {
+  return keywordVisits[filter]
+}
+
 
