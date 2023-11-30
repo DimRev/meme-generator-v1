@@ -20,7 +20,12 @@
           </li>
         </ul>
       </nav>
+      
+    </header>
+
+    <main class="main-content">
       <nav class="meme-filter">
+        <input class="search-filter" type="text" name="search" id="search-filter" placeholder="Search">
         <ul class="filter-nav-list clean-list flex">
           <li>
             <a class="filter-nav" href="#" data-filter="all">All</a>
@@ -56,10 +61,9 @@
             <a class="filter-nav" href="#" data-filter="actors">Actors</a>
           </li>
         </ul>
+        <button class="more-filters-btn">More</button>
       </nav>
-    </header>
 
-    <main class="main-content">
       <!-- MEME GALLERY SECTION -->
       <section class="gallery-section hidden"></section>
 
@@ -74,7 +78,7 @@
         <div class="canvas-container">
           <canvas class="meme-editor-canvas"></canvas>
         </div>
-
+       
         <div class="meme-editor-controls">
           <div class="line-controls">
             <input class="line-text" type="text" placeholder="Line text" />

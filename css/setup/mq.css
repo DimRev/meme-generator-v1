@@ -1,7 +1,7 @@
 @media (width <= 480px) {
   body {
     position: relative;
-    background-color: red;
+    /* background-color: red; */
   }
 
   /* MAIN LAYOUT */
@@ -38,7 +38,7 @@
 
 @media (width > 480px) {
   body {
-    background-color: yellow;
+    /* background-color: yellow; */
   }
   /* MAIN LAYOUT */
 
@@ -55,7 +55,7 @@
 
 @media (width > 768px) {
   body {
-    background-color: green;
+    /* background-color: green; */
   }
   /* MAIN LAYOUT */
   .main-layout{

@@ -15,6 +15,7 @@
 
 .meme-editor-section div {
   border: 1px solid transparent;
+  /* height: 10px; */
 }
 
 .meme-editor-section .canvas-container {
@@ -23,7 +24,7 @@
   align-items: center;
 
   width: 80%;
-  max-height: 80dvh;
+  max-height: 600px;
 
   margin: 0;
   padding: 0;

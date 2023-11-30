@@ -1,0 +1,25 @@
+.meme-filter {
+  display: grid;
+  grid-template-columns: 3fr 5fr 2fr;
+
+  margin-block-end: 1rem;
+}
+
+.meme-filter .filter-nav-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: var(--accent2);
+  border-radius: 100px;
+  
+  margin-inline: .5rem;
+}
+
+.meme-filter .search-filter {
+  border-radius: 1000px;
+}
+
+.meme-filter .search-filter::placeholder { 
+  text-align: center;
+}
