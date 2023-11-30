@@ -508,8 +508,9 @@ function drawOnCanvas() {
         gCtx.strokeStyle = `${line.strokeColor}`
         gCtx.textAlign = `${line.textAlign}`
 
-        const textX = gCanvas.width / 2 + line.pos.x * gScaleFactor
-        const textY = gCanvas.height / 2 + line.pos.y * gScaleFactor + scaledFontSize / 2
+        let textX = gCanvas.width / 2 + line.pos.x * gScaleFactor
+        let textY =
+          gCanvas.height / 2 + line.pos.y * gScaleFactor + scaledFontSize / 2
 
         gCtx.fillText(line.text, textX, textY)
         gCtx.strokeText(line.text, textX, textY)
@@ -580,14 +581,29 @@ function onMouseMoveCanvas(e) {
     const mouseY = e.clientY - gCanvas.getBoundingClientRect().top
 
     // Update the position of the selected line based on mouse movement
-    const newTextX = mouseX - dragStartX - gCanvas.width / 2
-    const newTextY = mouseY - dragStartY - gCanvas.height / 2
+    let newTextX = (mouseX - dragStartX - gCanvas.width / 2) / gScaleFactor
+    let newTextY = (mouseY - dragStartY - gCanvas.height / 2) / gScaleFactor
+
+    // Ensure the text stays within the borders of the image
+    let selectedLineIdx = getSelectedLineIdx()
+    let lineWidth =
+      ((getAllLines()[selectedLineIdx].text.length *
+        getAllLines()[selectedLineIdx].fontSize) /
+        2) *
+      gScaleFactor
+
+    const halfCanvasWidth = (gCanvas.width - lineWidth) / (2 * gScaleFactor)
+    const halfCanvasHeight =
+      (gCanvas.height - getAllLines()[selectedLineIdx].fontSize) /
+      (2 * gScaleFactor)
+
+    newTextX = Math.max(-halfCanvasWidth, Math.min(newTextX, halfCanvasWidth))
+    newTextY = Math.max(-halfCanvasHeight, Math.min(newTextY, halfCanvasHeight))
 
     // Update the position of the selected line in the lines array
-    let selectedLineIdx = getSelectedLineIdx()
 
-    getAllLines()[selectedLineIdx].pos.x = newTextX * gScaleFactor
-    getAllLines()[selectedLineIdx].pos.y = newTextY * gScaleFactor
+    getAllLines()[selectedLineIdx].pos.x = newTextX
+    getAllLines()[selectedLineIdx].pos.y = newTextY
 
     // Redraw the canvas
     drawOnCanvas()
@@ -598,7 +614,6 @@ function onMouseUpCanvas() {
   // Reset the dragging state
   isDragging = false
 }
-
 function onTouchStartCanvas(e) {
   e.preventDefault()
   const touch = e.touches[0]
@@ -607,14 +622,17 @@ function onTouchStartCanvas(e) {
 
   // Check if the touch is over any text line
   getAllLines().forEach((line, index) => {
-    const textX = gCanvas.width / 2 + line.pos.x
-    const textY = gCanvas.height / 2 + line.pos.y
+    const scaledFontSize = line.fontSize * gScaleFactor
+
+    const textX = gCanvas.width / 2 + line.pos.x * gScaleFactor
+    const textY =
+      gCanvas.height / 2 + line.pos.y * gScaleFactor + scaledFontSize / 2
 
     const textWidth = gCtx.measureText(line.text).width
     const rectX = textX - textWidth / 2 - 10
-    const rectY = textY - line.fontSize - 5
+    const rectY = textY - scaledFontSize - 5
     const rectWidth = textWidth + 20
-    const rectHeight = line.fontSize + 20
+    const rectHeight = scaledFontSize + 20
 
     if (
       touchX >= rectX &&
@@ -645,11 +663,26 @@ function onTouchMoveCanvas(e) {
     const touchY = touch.clientY - gCanvas.getBoundingClientRect().top
 
     // Update the position of the selected line based on touch movement
-    const newTextX = touchX - dragStartX - gCanvas.width / 2
-    const newTextY = touchY - dragStartY - gCanvas.height / 2
+    let newTextX = (touchX - dragStartX - gCanvas.width / 2) / gScaleFactor
+    let newTextY = (touchY - dragStartY - gCanvas.height / 2) / gScaleFactor
 
     // Update the position of the selected line in the lines array
     let selectedLineIdx = getSelectedLineIdx()
+    let lineWidth =
+      ((getAllLines()[selectedLineIdx].text.length *
+        getAllLines()[selectedLineIdx].fontSize) /
+        2) *
+      gScaleFactor
+
+    const halfCanvasWidth = (gCanvas.width - lineWidth) / (2 * gScaleFactor)
+    const halfCanvasHeight =
+      (gCanvas.height - getAllLines()[selectedLineIdx].fontSize) /
+      (2 * gScaleFactor)
+
+    newTextX = Math.max(-halfCanvasWidth, Math.min(newTextX, halfCanvasWidth))
+    newTextY = Math.max(-halfCanvasHeight, Math.min(newTextY, halfCanvasHeight))
+
+    // Update the position of the selected line in the lines array
 
     getAllLines()[selectedLineIdx].pos.x = newTextX
     getAllLines()[selectedLineIdx].pos.y = newTextY
