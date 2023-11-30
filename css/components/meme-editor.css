@@ -37,6 +37,11 @@
   max-height: 80dvh;
 }
 
+/* .meme-editor-section .meme-editor-controls .control{
+  height: 100%;
+  width: 100%;
+} */
+
 .meme-editor-section .meme-editor-controls img:not(:has(input)) {
   pointer-events: none;
 }
@@ -46,7 +51,7 @@
 .meme-editor-controls .sticker-controls, 
 .meme-editor-controls .meme-storage-controls {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(1.5rem,1fr));
 }
 .meme-editor-controls .line-controls .line-text {
   grid-column: 1/-1;
