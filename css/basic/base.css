@@ -13,6 +13,10 @@ main {
   height: auto;
 }
 
+img {
+  width: 100%;
+}
+
 .hidden {
   display: none !important;
 }
