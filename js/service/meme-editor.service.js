@@ -49,6 +49,10 @@ function getSelectedLineIdx() {
   return gSeletedLineIdx
 }
 
+function setSelectedLineIdx(lineIdx) {
+  gSeletedLineIdx = lineIdx
+}
+
 function getLine() {
   return gLines[gSeletedLineIdx]
 }

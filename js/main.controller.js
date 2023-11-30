@@ -2,15 +2,19 @@
 
 window.onload = onInit
 
-let isDragging = false;
-let dragStartX, dragStartY;
+let isDragging = false
+let dragStartX, dragStartY
 
 const gCanvas = document.querySelector('.meme-editor-canvas')
 const gCtx = gCanvas.getContext('2d')
 
-gCanvas.addEventListener('mousedown', onMouseDownCanvas);
-gCanvas.addEventListener('mousemove', onMouseMoveCanvas);
-gCanvas.addEventListener('mouseup', onMouseUpCanvas);
+gCanvas.addEventListener('mousedown', onMouseDownCanvas)
+gCanvas.addEventListener('mousemove', onMouseMoveCanvas)
+gCanvas.addEventListener('mouseup', onMouseUpCanvas)
+
+gCanvas.addEventListener('touchstart', onTouchStartCanvas)
+gCanvas.addEventListener('touchmove', onTouchMoveCanvas)
+gCanvas.addEventListener('touchend', onTouchEndCanvas)
 
 window.addEventListener('resize', refreshCanvas)
 
@@ -40,7 +44,7 @@ function generalEventListeners() {
       renderLineText()
 
       const elMemeFilter = document.querySelector('.meme-filter')
-      elMemeFilter.classList.add('hidden') 
+      elMemeFilter.classList.add('hidden')
 
       for (let i = 0; i < 1000; i++) {
         refreshCanvas()
@@ -262,7 +266,7 @@ function onSelectSection(elSectionNav) {
   else selectedSection = 'gallery'
 
   const elMemeFilter = document.querySelector('.meme-filter')
-  elMemeFilter.classList.add('hidden') 
+  elMemeFilter.classList.add('hidden')
 
   const elSections = document.querySelectorAll('section')
   elSections.forEach((elSection) => {
@@ -423,11 +427,11 @@ function onSelectFilterNav(elFilterNav) {
   renderGallery()
 }
 
-function resizeFilterListItems(){
+function resizeFilterListItems() {
   const elFilterNavs = document.querySelectorAll('.filter-nav')
   elFilterNavs.forEach((elFilterNav) => {
     let filter = elFilterNav.dataset.filter
-    let fontSize = 1 + getFilterCount(filter)/50 + 'rem'
+    let fontSize = 1 + getFilterCount(filter) / 50 + 'rem'
     elFilterNav.style.fontSize = fontSize
   })
 }
@@ -485,48 +489,47 @@ function drawOnCanvas() {
         gCtx.fillText(line.text, textX, textY)
         gCtx.strokeText(line.text, textX, textY)
 
-        if(isSelected) {
-          const textWidth = gCtx.measureText(line.text).width;
-          const rectX = textX - textWidth / 2 - 10;
-          const rectY = textY - scaledFontSize - 5;
-          const rectWidth = textWidth + 20;
-          const rectHeight = scaledFontSize + 20;
-        
-          gCtx.beginPath();
-          gCtx.strokeStyle = 'White';
-          gCtx.lineWidth = 4;
-        
-          // Set the line dash for a dotted line effect
-          gCtx.setLineDash([5, 5]);
-        
-          // Draw the dotted line rectangle
-          gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight);
-        
-          // Reset the line dash to default
-          gCtx.setLineDash([]);
-        }
+        if (isSelected) {
+          const textWidth = gCtx.measureText(line.text).width
+          const rectX = textX - textWidth / 2 - 10
+          const rectY = textY - scaledFontSize - 5
+          const rectWidth = textWidth + 20
+          const rectHeight = scaledFontSize + 20
 
+          gCtx.beginPath()
+          gCtx.strokeStyle = 'White'
+          gCtx.lineWidth = 4
+
+          // Set the line dash for a dotted line effect
+          gCtx.setLineDash([5, 5])
+
+          // Draw the dotted line rectangle
+          gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight)
+
+          // Reset the line dash to default
+          gCtx.setLineDash([])
+        }
       })
-      requestAnimationFrame(animate)           //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש 
+      requestAnimationFrame(animate) //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש
     }
     animate()
   }
 }
 
 function onMouseDownCanvas(e) {
-  const mouseX = e.clientX - gCanvas.getBoundingClientRect().left;
-  const mouseY = e.clientY - gCanvas.getBoundingClientRect().top;
+  const mouseX = e.clientX - gCanvas.getBoundingClientRect().left
+  const mouseY = e.clientY - gCanvas.getBoundingClientRect().top
 
   // Check if the mouse is over any text line
   getAllLines().forEach((line, index) => {
-    const textX = gCanvas.width / 2 + line.pos.x;
-    const textY = gCanvas.height / 2 + line.pos.y;
+    const textX = gCanvas.width / 2 + line.pos.x
+    const textY = gCanvas.height / 2 + line.pos.y
 
-    const textWidth = gCtx.measureText(line.text).width;
-    const rectX = textX - textWidth / 2 - 10;
-    const rectY = textY - line.fontSize - 5;
-    const rectWidth = textWidth + 20;
-    const rectHeight = line.fontSize + 20;
+    const textWidth = gCtx.measureText(line.text).width
+    const rectX = textX - textWidth / 2 - 10
+    const rectY = textY - line.fontSize - 5
+    const rectWidth = textWidth + 20
+    const rectHeight = line.fontSize + 20
 
     if (
       mouseX >= rectX &&
@@ -535,38 +538,106 @@ function onMouseDownCanvas(e) {
       mouseY <= rectY + rectHeight
     ) {
       // Set the dragging state and store the initial mouse coordinates
-      isDragging = true;
-      dragStartX = mouseX - textX;
-      dragStartY = mouseY - textY;
+      isDragging = true
+      dragStartX = mouseX - textX
+      dragStartY = mouseY - textY
 
       // Set the selected line index
-      gSeletedLineIdx = index;
+      setSelectedLineIdx(index)
 
       // Redraw the canvas
-      drawOnCanvas();
+      drawOnCanvas()
+      renderLineText()
     }
-  });
+  })
 }
 
 function onMouseMoveCanvas(e) {
   if (isDragging) {
-    const mouseX = e.clientX - gCanvas.getBoundingClientRect().left;
-    const mouseY = e.clientY - gCanvas.getBoundingClientRect().top;
+    const mouseX = e.clientX - gCanvas.getBoundingClientRect().left
+    const mouseY = e.clientY - gCanvas.getBoundingClientRect().top
 
     // Update the position of the selected line based on mouse movement
-    const newTextX = mouseX - dragStartX - gCanvas.width / 2;
-    const newTextY = mouseY - dragStartY - gCanvas.height / 2;
+    const newTextX = mouseX - dragStartX - gCanvas.width / 2
+    const newTextY = mouseY - dragStartY - gCanvas.height / 2
 
     // Update the position of the selected line in the lines array
-    getAllLines()[gSeletedLineIdx].pos.x = newTextX;
-    getAllLines()[gSeletedLineIdx].pos.y = newTextY;
+    let selectedLineIdx = getSelectedLineIdx()
+
+    getAllLines()[selectedLineIdx].pos.x = newTextX
+    getAllLines()[selectedLineIdx].pos.y = newTextY
 
     // Redraw the canvas
-    drawOnCanvas();
+    drawOnCanvas()
   }
 }
 
 function onMouseUpCanvas() {
   // Reset the dragging state
-  isDragging = false;
+  isDragging = false
+}
+
+function onTouchStartCanvas(e) {
+  e.preventDefault()
+  const touch = e.touches[0]
+  const touchX = touch.clientX - gCanvas.getBoundingClientRect().left
+  const touchY = touch.clientY - gCanvas.getBoundingClientRect().top
+
+  // Check if the touch is over any text line
+  getAllLines().forEach((line, index) => {
+    const textX = gCanvas.width / 2 + line.pos.x
+    const textY = gCanvas.height / 2 + line.pos.y
+
+    const textWidth = gCtx.measureText(line.text).width
+    const rectX = textX - textWidth / 2 - 10
+    const rectY = textY - line.fontSize - 5
+    const rectWidth = textWidth + 20
+    const rectHeight = line.fontSize + 20
+
+    if (
+      touchX >= rectX &&
+      touchX <= rectX + rectWidth &&
+      touchY >= rectY &&
+      touchY <= rectY + rectHeight
+    ) {
+      // Set the dragging state and store the initial touch coordinates
+      isDragging = true
+      dragStartX = touchX - textX
+      dragStartY = touchY - textY
+
+      // Set the selected line index
+      setSelectedLineIdx(index)
+
+      // Redraw the canvas
+      drawOnCanvas()
+      renderLineText()
+    }
+  })
+}
+
+function onTouchMoveCanvas(e) {
+  e.preventDefault()
+  if (isDragging) {
+    const touch = e.touches[0]
+    const touchX = touch.clientX - gCanvas.getBoundingClientRect().left
+    const touchY = touch.clientY - gCanvas.getBoundingClientRect().top
+
+    // Update the position of the selected line based on touch movement
+    const newTextX = touchX - dragStartX - gCanvas.width / 2
+    const newTextY = touchY - dragStartY - gCanvas.height / 2
+
+    // Update the position of the selected line in the lines array
+    let selectedLineIdx = getSelectedLineIdx()
+
+    getAllLines()[selectedLineIdx].pos.x = newTextX
+    getAllLines()[selectedLineIdx].pos.y = newTextY
+
+    // Redraw the canvas
+    drawOnCanvas()
+  }
+}
+
+function onTouchEndCanvas() {
+  // Reset the dragging state
+  isDragging = false
 }
