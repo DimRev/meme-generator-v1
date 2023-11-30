@@ -30,9 +30,12 @@ window.addEventListener('resize', refreshCanvas)
 function onInit() {
   renderGallery()
   renderMyMemes()
+  renderMemeFilters(5)
+
+  resizeFilterListItems()
+
   refreshCanvas()
   onSelectSection()
-  resizeFilterListItems()
 
   generalEventListeners()
   lineControlsEventListeners()
@@ -45,7 +48,7 @@ function onInit() {
 
 function generalEventListeners() {
   const elSectionNavs = document.querySelectorAll('.section-nav')
-  const elFilterNavs = document.querySelectorAll('.filter-nav')
+  const elMoreFiltersBtn = document.querySelector('.more-filters-btn')
 
   elSectionNavs.forEach((elSectionNav) => {
     elSectionNav.addEventListener('click', function () {
@@ -53,11 +56,12 @@ function generalEventListeners() {
     })
   })
 
-  elFilterNavs.forEach((elFilterNav) => {
-    elFilterNav.addEventListener('click', function () {
-      onSelectFilterNav(this)
-      resizeFilterListItems(this)
-    })
+  elMoreFiltersBtn.addEventListener('click', function () {
+    renderMemeFilters()
+    resizeFilterListItems()
+
+    const elMemeFilter = document.querySelector('.meme-filter')
+    elMemeFilter.classList.add('active')
   })
 }
 
@@ -259,6 +263,22 @@ function renderLineText() {
   }
 }
 
+function renderMemeFilters(count) {
+  const sortedFilters = getSortedFilters()
+  if(!count) count = sortedFilters.length
+
+  let filtersHTML = sortedFilters
+    .map((sortedFilter, idx) => {
+      if(idx < count) return `
+  <li><a class="filter-nav" href="#" data-filter="${sortedFilter}" onclick="onFilterNav(this)">${sortedFilter}</a></li>
+  `
+    })
+    .join('\n')
+
+  const elFilterNavList = document.querySelector('.filter-nav-list')
+  elFilterNavList.innerHTML = filtersHTML
+}
+
 // EVENT HANDLERS //
 
 function onSelectGalleryMeme(elGalleryMeme) {
@@ -456,6 +476,12 @@ function onSelectFilterNav(elFilterNav) {
   setFilter(filter)
   addFilterCount(filter)
   renderGallery()
+}
+
+function onFilterNav(elFilterNav) {
+  onSelectFilterNav(elFilterNav)
+  renderMemeFilters(5)
+  resizeFilterListItems()
 }
 
 function resizeFilterListItems() {

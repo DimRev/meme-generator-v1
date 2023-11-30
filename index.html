@@ -20,47 +20,18 @@
           </li>
         </ul>
       </nav>
-      
     </header>
 
     <main class="main-content">
       <nav class="meme-filter">
-        <input class="search-filter" type="text" name="search" id="search-filter" placeholder="Search">
-        <ul class="filter-nav-list clean-list flex">
-          <li>
-            <a class="filter-nav" href="#" data-filter="all">All</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="random">Random</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="happy">Happy</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="politics">Politics</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="animals">Animals</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="cute">Cute</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="angry">Angry</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="baby">Baby</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="funny">Funny</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="general">General</a>
-          </li>
-          <li>
-            <a class="filter-nav" href="#" data-filter="actors">Actors</a>
-          </li>
-        </ul>
+        <input
+          class="search-filter"
+          type="text"
+          name="search"
+          id="search-filter"
+          placeholder="Search"
+        />
+        <ul class="filter-nav-list clean-list flex"></ul>
         <button class="more-filters-btn">More</button>
       </nav>
 
@@ -78,24 +49,50 @@
         <div class="canvas-container">
           <canvas class="meme-editor-canvas"></canvas>
         </div>
-       
+
         <div class="meme-editor-controls">
           <div class="line-controls">
             <input class="line-text" type="text" placeholder="Line text" />
-            <button class="control switch-line-btn"><img src="img/icons/up-and-down-opposite-double-arrows-side-by-side.png" alt=""></button>
-            <button class="control move-up-btn"><img src="img/icons/arrow-up-solid.svg" alt=""></button>
-            <button class="control move-down-btn"><img src="img/icons/arrow-down-solid.svg" alt=""></button>
-            <button class="control add-line-btn"><img src="img/icons/add.png" alt=""></button>
-            <button class="control delete-line-btn"><img src="img/icons/trash.png" alt=""></button>
+            <button class="control switch-line-btn">
+              <img
+                src="img/icons/up-and-down-opposite-double-arrows-side-by-side.png"
+                alt=""
+              />
+            </button>
+            <button class="control move-up-btn">
+              <img src="img/icons/arrow-up-solid.svg" alt="" />
+            </button>
+            <button class="control move-down-btn">
+              <img src="img/icons/arrow-down-solid.svg" alt="" />
+            </button>
+            <button class="control add-line-btn">
+              <img src="img/icons/add.png" alt="" />
+            </button>
+            <button class="control delete-line-btn">
+              <img src="img/icons/trash.png" alt="" />
+            </button>
           </div>
 
           <div class="font-controls">
-            <button class="control rise-font-size-btn"><img src="img/icons/increase font - icon.png" alt=""></button>
-            <button class="control lower-font-size-btn"><img src="img/icons/decrease font - icon.png" alt=""></button>
-            <button class="control line-pos-left-btn"><img src="img/icons/align-to-left.png" alt=""></button>
-            <button class="control line-pos-center-btn"><img src="img/icons/center-text-alignment.png" alt=""></button>
-            <button class="control line-pos-right-btn"><img src="img/icons/align-to-right.png" alt=""></button>
-            <select class="control font-family-selector" name="font-family-selector">
+            <button class="control rise-font-size-btn">
+              <img src="img/icons/increase font - icon.png" alt="" />
+            </button>
+            <button class="control lower-font-size-btn">
+              <img src="img/icons/decrease font - icon.png" alt="" />
+            </button>
+            <button class="control line-pos-left-btn">
+              <img src="img/icons/align-to-left.png" alt="" />
+            </button>
+            <button class="control line-pos-center-btn">
+              <img src="img/icons/center-text-alignment.png" alt="" />
+            </button>
+            <button class="control line-pos-right-btn">
+              <img src="img/icons/align-to-right.png" alt="" />
+            </button>
+            <select
+              class="control font-family-selector"
+              name="font-family-selector"
+            >
               <option value="impact">Impact</option>
               <option value="arial">Arial</option>
               <option value="courier new">Courier New</option>
@@ -111,12 +108,20 @@
               <option value="georgia">Georgia</option>
             </select>
             <label for="font-color">
-              <img class="control" src="img/icons/paint-board-and-brush.png" alt="">
+              <img
+                class="control"
+                src="img/icons/paint-board-and-brush.png"
+                alt=""
+              />
               <input class="control font-color" id="font-color" type="color" />
             </label>
             <label for="stroke-color">
-              <img class="control" src="img/icons/text stroke.png" alt="">
-              <input class="control stroke-color" id="stroke-color" type="color" />
+              <img class="control" src="img/icons/text stroke.png" alt="" />
+              <input
+                class="control stroke-color"
+                id="stroke-color"
+                type="color"
+              />
             </label>
           </div>
 

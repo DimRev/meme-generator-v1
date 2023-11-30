@@ -51,4 +51,8 @@ function getFilterCount(filter) {
   return keywordVisits[filter]
 }
 
+function getSortedFilters(){
+  return Object.keys(keywordVisits).sort((a, b) => keywordVisits[b] - keywordVisits[a])
+}
+
 
