@@ -191,14 +191,14 @@ function storageControlsEventListeners() {
 // RENDER HANDLERS //
 
 function refreshCanvas() {
-  const selectedMeme = getSelectedMeme()
+  const selectedMeme = getSelectedMeme();
   if (!selectedMeme) {
-    const elCanvasContainer = document.querySelector('.canvas-container')
-    gCanvas.width = elCanvasContainer.offsetWidth
-    gCanvas.height = elCanvasContainer.offsetHeight
-    return
+    const elCanvasContainer = document.querySelector('.canvas-container');
+    gCanvas.width = elCanvasContainer.offsetWidth;
+    gCanvas.height = elCanvasContainer.offsetHeight;
+    return;
   }
-  drawOnCanvas()
+  drawOnCanvas();
 }
 
 function renderGallery() {
@@ -469,81 +469,69 @@ function resizeFilterListItems() {
 // CANVAS HANDLERS //
 
 function drawOnCanvas() {
-  const elCanvasContainer = document.querySelector('.canvas-container')
-  gCanvas.width = elCanvasContainer.offsetWidth
-  gCanvas.height = elCanvasContainer.offsetHeight
+  const elCanvasContainer = document.querySelector('.canvas-container');
+  gCanvas.width = elCanvasContainer.offsetWidth;
+  gCanvas.height = elCanvasContainer.offsetHeight;
 
-  const selectedMeme = getSelectedMeme()
-  if (!selectedMeme) return
+  const selectedMeme = getSelectedMeme();
+  if (!selectedMeme) return;
 
-  const img = new Image()
+  const img = new Image();
 
-  img.src = selectedMeme.url
+  img.src = selectedMeme.url;
 
   img.onload = function () {
     function animate() {
       const scaleFactor = Math.min(
         gCanvas.width / img.width,
         gCanvas.height / img.height
-      )
+      );
 
       // Center the image inside the canvas
-      const imgWidth = img.width * scaleFactor
-      const imgHeight = img.height * scaleFactor
-      const imgX = (gCanvas.width - imgWidth) / 2
-      const imgY = (gCanvas.height - imgHeight) / 2
+      const imgWidth = img.width * scaleFactor;
+      const imgHeight = img.height * scaleFactor;
+      const imgX = (gCanvas.width - imgWidth) / 2;
+      const imgY = (gCanvas.height - imgHeight) / 2;
 
-      gCtx.beginPath()
-      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
-      gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
+      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+      gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
 
-      let lines = getAllLines()
+      let lines = getAllLines();
       lines.forEach((line, index) => {
-        gCtx.beginPath()
+        const isSelected = index === getSelectedLineIdx();
 
-        const isSelected = index === getSelectedLineIdx()
+        const scaledFontSize = line.fontSize * scaleFactor;
+        gCtx.font = `${scaledFontSize}px ${line.fontFamily}`;
+        gCtx.fillStyle = `${line.color}`;
+        gCtx.lineWidth = 2;
+        gCtx.strokeStyle = `${line.strokeColor}`;
+        gCtx.textAlign = `${line.textAlign}`;
 
-        // Scale the font size in relation to the image size
-        const scaledFontSize = line.fontSize * scaleFactor
+        const textX = gCanvas.width / 2 + line.pos.x * scaleFactor;
+        const textY = gCanvas.height / 2 + line.pos.y * scaleFactor + scaledFontSize / 2;
 
-        gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
-        gCtx.fillStyle = `${line.color}`
-        gCtx.lineWidth = 2
-        gCtx.strokeStyle = `${line.strokeColor}`
-        gCtx.textAlign = `${line.textAlign}`
-
-        // Adjust text position in relation to the centered image
-        const textX = gCanvas.width / 2 + line.pos.x
-        const textY = gCanvas.height / 2 + line.pos.y + line.fontSize / 2
-
-        gCtx.fillText(line.text, textX, textY)
-        gCtx.strokeText(line.text, textX, textY)
+        gCtx.fillText(line.text, textX, textY);
+        gCtx.strokeText(line.text, textX, textY);
 
         if (isSelected) {
-          const textWidth = gCtx.measureText(line.text).width
-          const rectX = textX - textWidth / 2 - 10
-          const rectY = textY - scaledFontSize - 5
-          const rectWidth = textWidth + 20
-          const rectHeight = scaledFontSize + 20
+          const textWidth = gCtx.measureText(line.text).width;
+          const rectX = textX - textWidth / 2 - 10;
+          const rectY = textY - scaledFontSize - 5;
+          const rectWidth = textWidth + 20;
+          const rectHeight = scaledFontSize + 20;
 
-          gCtx.beginPath()
-          gCtx.strokeStyle = 'White'
-          gCtx.lineWidth = 4
+          gCtx.strokeStyle = 'White';
+          gCtx.lineWidth = 4;
 
-          // Set the line dash for a dotted line effect
-          gCtx.setLineDash([5, 5])
-
-          // Draw the dotted line rectangle
-          gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight)
-
-          // Reset the line dash to default
-          gCtx.setLineDash([])
-        } 
-      })
-      requestAnimationFrame(animate) //!!! אני וצאט ג'פט שברנו על השורה הזאת תראש
+          gCtx.setLineDash([5, 5]);
+          gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight);
+          gCtx.setLineDash([]);
+        }
+      });
+      requestAnimationFrame(animate);
     }
-    animate()
-  }
+    animate();
+  };
 }
 
 function onMouseDownCanvas(e) {
