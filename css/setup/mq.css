@@ -138,9 +138,6 @@
 }
 
 @media (width > 768px) {
-  body {
-    /* background-color: green; */
-  }
   /* MAIN LAYOUT */
   .main-layout {
     grid-template-columns: minmax(10px, 1fr) 728px minmax(10px, 1fr);
