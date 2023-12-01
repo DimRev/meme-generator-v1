@@ -328,6 +328,11 @@ function onSelectGalleryMeme(elGalleryMeme) {
   elMemeEditorSection.classList.remove('hidden')
 
   refreshCanvas()
+
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+  elSectionNavs.forEach((elSectionNav) => {
+    elSectionNav.classList.remove('active')
+  })
 }
 
 function onSelectSection(elSectionNav) {
@@ -335,8 +340,16 @@ function onSelectSection(elSectionNav) {
   if (elSectionNav) selectedSection = elSectionNav.dataset.section
   else selectedSection = 'gallery'
 
-  const elMainNav = document.querySelector('.main-nav')
-  elMainNav.classList.remove('active')
+  // const elMainNav = document.querySelector('.main-nav')
+  // elMainNav.classList.remove('active')
+
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+  elSectionNavs.forEach((elSectionNav) => {
+    elSectionNav.classList.remove('active')
+  })
+
+  if (elSectionNav) elSectionNav.classList.add('active')
+  else document.querySelector('.section-nav[data-section="gallery"]').classList.add('active')
 
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
