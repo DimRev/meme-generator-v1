@@ -10,7 +10,6 @@
   width: 95vw;
   max-height: 70dvh;
 
-  margin-block-start: -2.1rem;
 }
 
 .meme-editor-section div {
@@ -34,36 +33,63 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+
   width: 20%;
   max-height: 80dvh;
+  padding: .5rem;
+  border-radius: 15px;
+
+  background-color: var(--accent2);
 }
 
 button.control { 
-  width: 100%;
-  height: 100%;
-  padding: .2rem;
+  width: 80%;
+  height: 80%;
+  padding: .5rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   border-radius: 15%;
+
+  
+  background-color: var(--secondary);
+  transition: background 0.3s ease; 
+}
+
+button.control:hover {
+  background-color: var(--primary);
+  box-shadow: 0 0 7px 2px var(--txtclr);
 }
 
 .meme-editor-section .meme-editor-controls img:not(:has(input)) {
   pointer-events: none;
 }
 
+.meme-editor-section .meme-editor-controls input[type="text"] {
+  padding: .3rem;
+  margin-block-end: .3rem;
+}
+.meme-editor-section .meme-editor-controls input[type="color"] {
+  background-color: var(--secondary);
+  padding: .1rem;
+  margin-block-end: .3rem;
+}
+.meme-editor-section .meme-editor-controls input[type="color"]:hover {
+  background-color: var(--primary);
+  box-shadow: 0 0 5px 2px var(--txtclr);
+}
+
 .meme-editor-controls .meme-storage-controls {
   display: flex;
-  flex-direction: column;
 }
 
 .meme-editor-controls .line-controls,
 .meme-editor-controls .font-controls, 
 .meme-editor-controls .sticker-controls{
   display: grid;
-  grid-template-columns: repeat(3, minmax(1.5rem,5rem));
+  grid-template-columns: repeat(3, minmax(.5rem,5rem));
   justify-self: center;
 }
 .meme-editor-controls .line-controls .line-text {

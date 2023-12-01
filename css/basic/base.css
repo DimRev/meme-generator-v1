@@ -1,4 +1,4 @@
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -20,19 +20,32 @@ main {
   border-radius: 15px;
 }
 
+button {
+  cursor: pointer;
+}
+
+input {
+  cursor: pointer;
+}
+
+input[type="text"]{
+  cursor: text;
+}
+
 img {
   width: 100%;
 }
 
-a { 
+a {
   color: inherit;
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .hidden {
   display: none !important;
 }
 
-.hidden > *{
+.hidden > * {
   display: none !important;
 }
