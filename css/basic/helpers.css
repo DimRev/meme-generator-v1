@@ -12,12 +12,11 @@
   align-items: center;
 }
 
-.center{
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 
 /* LIST HELPERS */
 

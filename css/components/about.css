@@ -1,4 +1,4 @@
-.about-section { 
+.about-section {
   display: flex;
   flex-direction: column;
 
@@ -44,33 +44,35 @@
   margin: 0 10px;
   text-decoration: none;
   transition: transform 0.3s ease-in-out;
-  
+
   width: 30px;
   height: 30px;
   border-radius: 5px;
-  
-  opacity: .2;
+
+  opacity: 0.2;
   background-color: #fff;
 }
 
 .social-icons img {
-  padding: .3rem;
+  padding: 0.3rem;
 }
 
-.social-icons a:hover{
+.social-icons a:hover {
   transform: scale(1.2);
 }
 
-.social-icons a.facebook:hover  {
+.social-icons a.facebook:hover {
   opacity: 1;
-  background-color: #1877F2;
+  background-color: #1877f2;
   color: white;
 }
-.social-icons a.github:hover  {
+
+.social-icons a.github:hover {
   opacity: 1;
   background-color: var(--txtclr);
 }
-.social-icons a.linkedin:hover  {
+
+.social-icons a.linkedin:hover {
   opacity: 1;
   background-color: #0077b5;
 }

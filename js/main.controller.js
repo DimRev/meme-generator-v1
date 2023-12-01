@@ -349,7 +349,10 @@ function onSelectSection(elSectionNav) {
   })
 
   if (elSectionNav) elSectionNav.classList.add('active')
-  else document.querySelector('.section-nav[data-section="gallery"]').classList.add('active')
+  else
+    document
+      .querySelector('.section-nav[data-section="gallery"]')
+      .classList.add('active')
 
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
@@ -581,7 +584,7 @@ function drawOnCanvas(unSelectLine) {
       let lines = getAllLines()
       lines.forEach((line, index) => {
         let isSelected = index === getSelectedLineIdx()
-        if(unSelectLine) isSelected = false 
+        if (unSelectLine) isSelected = false
 
         const scaledFontSize = line.fontSize * gScaleFactor
         gCtx.font = `${scaledFontSize}px ${line.fontFamily}`

@@ -1,4 +1,16 @@
-const keywordVisits = {all:55, random : 5, happy : 1, politics : 15, animals : 25, cute : 35, angry : 25, baby : 5 , funny : 2 , general : 55 , actors : 5}
+const keywordVisits = {
+  all: 55,
+  random: 5,
+  happy: 1,
+  politics: 15,
+  animals: 25,
+  cute: 35,
+  angry: 25,
+  baby: 5,
+  funny: 2,
+  general: 55,
+  actors: 5,
+}
 let gFilter = 'all'
 
 var gImgs = [
@@ -29,14 +41,13 @@ var gImgs = [
   { id: 25, url: 'img/25.jpg', keywords: ['random', 'funny'] },
 ]
 
-
 function getMemeImages() {
-  if(gFilter === 'all') return gImgs
-  return gImgs.filter(img => img.keywords.includes(gFilter))
+  if (gFilter === 'all') return gImgs
+  return gImgs.filter((img) => img.keywords.includes(gFilter))
 }
 
 function getMemeImageById(id) {
-  return gImgs.find(img => img.id === id)
+  return gImgs.find((img) => img.id === id)
 }
 
 function setFilter(filter) {
@@ -51,8 +62,8 @@ function getFilterCount(filter) {
   return keywordVisits[filter]
 }
 
-function getSortedFilters(){
-  return Object.keys(keywordVisits).sort((a, b) => keywordVisits[b] - keywordVisits[a])
+function getSortedFilters() {
+  return Object.keys(keywordVisits).sort(
+    (a, b) => keywordVisits[b] - keywordVisits[a]
+  )
 }
-
-
