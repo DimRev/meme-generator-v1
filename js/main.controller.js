@@ -146,14 +146,27 @@ function fontControlsEventListeners() {
     gIntervalId = setInterval(function () {
       onFontSize('rise')
       refreshCanvas()
-    }, 50)
+    }, 10)
   })
 
   elLowerFontSizeBtn.addEventListener('mousedown', function () {
     gIntervalId = setInterval(function () {
       onFontSize('lower')
       refreshCanvas()
-    }, 50)
+    }, 10)
+  })
+  elRiseFontSizeBtn.addEventListener('touchstart', function () {
+    gIntervalId = setInterval(function () {
+      onFontSize('rise')
+      refreshCanvas()
+    }, 10)
+  })
+
+  elLowerFontSizeBtn.addEventListener('touchstart', function () {
+    gIntervalId = setInterval(function () {
+      onFontSize('lower')
+      refreshCanvas()
+    }, 10)
   })
 
   elLinePosLeftBtn.addEventListener('click', function () {
