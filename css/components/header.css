@@ -39,9 +39,6 @@
   align-items: center;
 }
 
-.main-header .main-nav .main-nav-list li {
-}
-
 .main-header .main-nav .main-nav-list li a:hover,
 .main-header .main-nav .main-nav-list li a.active {
   background-color: var(--secondary);

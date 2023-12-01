@@ -49,6 +49,7 @@ function onInit() {
 function generalEventListeners() {
   const elSectionNavs = document.querySelectorAll('.section-nav')
   const elMoreFiltersBtn = document.querySelector('.more-filters-btn')
+  const elHamburgerMenu = document.querySelector('.hamburger-menu')
 
   elSectionNavs.forEach((elSectionNav) => {
     elSectionNav.addEventListener('click', function () {
@@ -59,12 +60,18 @@ function generalEventListeners() {
   elMoreFiltersBtn.addEventListener('click', function () {
     const elMemeFilter = document.querySelector('.meme-filter')
 
-    if(elMemeFilter.classList.contains('active')) renderMemeFilters(5)
+    if (elMemeFilter.classList.contains('active')) renderMemeFilters(5)
     else renderMemeFilters()
 
     resizeFilterListItems()
 
     elMemeFilter.classList.toggle('active')
+  })
+
+  elHamburgerMenu.addEventListener('click', function () {
+    const elMainNav = document.querySelector('.main-nav')
+
+    elMainNav.classList.toggle('active')
   })
 }
 
@@ -90,14 +97,26 @@ function lineControlsEventListeners() {
     gIntervalId = setInterval(function () {
       onLineMove('up')
       refreshCanvas()
-    }, 50)
+    }, 10)
+  })
+  elMoveUpBtn.addEventListener('touchstart', function () {
+    gIntervalId = setInterval(function () {
+      onLineMove('up')
+      refreshCanvas()
+    }, 10)
   })
 
   elMoveDownBtn.addEventListener('mousedown', function () {
     gIntervalId = setInterval(function () {
       onLineMove('down')
       refreshCanvas()
-    }, 50)
+    }, 10)
+  })
+  elMoveDownBtn.addEventListener('touchstart', function () {
+    gIntervalId = setInterval(function () {
+      onLineMove('down')
+      refreshCanvas()
+    }, 10)
   })
 
   elAddLineBtn.addEventListener('click', function () {
@@ -268,11 +287,12 @@ function renderLineText() {
 
 function renderMemeFilters(count) {
   const sortedFilters = getSortedFilters()
-  if(!count) count = sortedFilters.length
+  if (!count) count = sortedFilters.length
 
   let filtersHTML = sortedFilters
     .map((sortedFilter, idx) => {
-      if(idx < count) return `
+      if (idx < count)
+        return `
   <li><a class="filter-nav" href="#" data-filter="${sortedFilter}" onclick="onFilterNav(this)">${sortedFilter}</a></li>
   `
     })
@@ -301,6 +321,9 @@ function onSelectSection(elSectionNav) {
   let selectedSection
   if (elSectionNav) selectedSection = elSectionNav.dataset.section
   else selectedSection = 'gallery'
+
+  const elMainNav = document.querySelector('.main-nav')
+  elMainNav.classList.remove('active')
 
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
