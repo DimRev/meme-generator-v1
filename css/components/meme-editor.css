@@ -38,20 +38,33 @@
   max-height: 80dvh;
 }
 
-.meme-editor-section .meme-editor-controls .control{
+button.control { 
   width: 100%;
+  height: 100%;
+  padding: .2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 15%;
 }
 
 .meme-editor-section .meme-editor-controls img:not(:has(input)) {
   pointer-events: none;
 }
 
+.meme-editor-controls .meme-storage-controls {
+  display: flex;
+  flex-direction: column;
+}
+
 .meme-editor-controls .line-controls,
 .meme-editor-controls .font-controls, 
-.meme-editor-controls .sticker-controls, 
-.meme-editor-controls .meme-storage-controls {
+.meme-editor-controls .sticker-controls{
   display: grid;
   grid-template-columns: repeat(3, minmax(1.5rem,5rem));
+  justify-self: center;
 }
 .meme-editor-controls .line-controls .line-text {
   grid-column: 1/-1;

@@ -1,11 +1,15 @@
 .gallery-section { 
   display: grid;
   /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));  /**MQ*/
-  gap: 0.5em;
+  gap: 1.1em;
 }
 
 .gallery-section img {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
+
+  border-radius: 15px;
+
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, .5);
 }
