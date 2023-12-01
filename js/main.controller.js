@@ -537,7 +537,7 @@ function resizeFilterListItems() {
 
 // CANVAS HANDLERS //
 
-function drawOnCanvas() {
+function drawOnCanvas(unSelectLine) {
   const elCanvasContainer = document.querySelector('.canvas-container')
   gCanvas.width = elCanvasContainer.offsetWidth
   gCanvas.height = elCanvasContainer.offsetHeight
@@ -567,7 +567,8 @@ function drawOnCanvas() {
 
       let lines = getAllLines()
       lines.forEach((line, index) => {
-        const isSelected = index === getSelectedLineIdx()
+        let isSelected = index === getSelectedLineIdx()
+        if(unSelectLine) isSelected = false 
 
         const scaledFontSize = line.fontSize * gScaleFactor
         gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
