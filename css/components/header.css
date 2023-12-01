@@ -14,13 +14,15 @@
   width: 96vw;
   align-items: center;
 
+  font-family: 'Arial Narrow Bold', sans-serif;
+  font-weight: 900;
 
   background: linear-gradient(to right, var(--primary) 0%, var(--secondary) 100%);
   border-radius: 1000px;
 }
 
 .main-header .logo {
-  font-size: 2.2rem;
+  font-size: 2.2em;
 
   justify-self: flex-start;
 
@@ -28,7 +30,7 @@
 }
 
 .main-header .main-nav{
-  font-size: 1.4rem;
+  font-size: 1.5em;
 
   margin-inline-end: 2rem;
 }

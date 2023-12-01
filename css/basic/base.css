@@ -42,6 +42,10 @@ a {
   text-transform: uppercase;
 }
 
+.logo {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
 .hidden {
   display: none !important;
 }

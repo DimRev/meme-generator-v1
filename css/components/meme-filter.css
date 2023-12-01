@@ -3,6 +3,8 @@
   grid-template-columns: minmax(6rem, 10%) minmax(4rem, 80%) minmax(6rem, 10%);
   grid-auto-rows: minmax(40px, 100%);
   margin-block-end: 1rem;
+
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .meme-filter.active {
@@ -21,9 +23,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
   text-align: center;
-
   
-  padding: .2rem;
+  padding: .6rem;
   gap: .5rem;
 
   height: fit-content;
@@ -39,7 +40,19 @@
 
   margin-inline: 0.5rem;
 
-  font-size: .8rem;
+  font-size: .7rem;
+}
+
+.meme-filter .filter-nav-list li:hover {
+  color: var(--txtclr);
+
+  text-shadow: 
+  0 0 1px rgb(0,0,0),
+  0 0 3px rgb(0,0,0),
+  0 0 5px rgb(0,0,0),
+  0 0 7px rgb(0,0,0),
+  0 0 9px rgb(0,0,0),
+  0 0 11px rgb(0,0,0);
 }
 
 .meme-filter .search-filter {
@@ -58,6 +71,14 @@
 .meme-filter .more-filters-btn {
   min-width: 6rem;
   border-radius: 1000px;
+  
+  background-color: var(--primary);
+
+  transition: background-color .2s ease ;
+}
+
+.meme-filter .more-filters-btn:hover {
+  background-color: var(--secondary);
 }
 
 .meme-filter.active .more-filters-btn {
