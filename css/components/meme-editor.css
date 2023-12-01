@@ -31,12 +31,14 @@
 .meme-editor-section .meme-editor-controls {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 
   width: 20%;
   max-height: 80dvh;
 
   padding: 1rem;
+  gap: 1rem;
   border-radius: 15px;
 
   background-color: var(--accent2);
