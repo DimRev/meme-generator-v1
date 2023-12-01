@@ -21,6 +21,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
   text-align: center;
+
   
   padding: .2rem;
   gap: .5rem;
@@ -37,6 +38,8 @@
   border-radius: 100px;
 
   margin-inline: 0.5rem;
+
+  font-size: .8rem;
 }
 
 .meme-filter .search-filter {

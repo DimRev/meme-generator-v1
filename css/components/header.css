@@ -3,16 +3,17 @@
 
   position: absolute;
   top: .3rem;
-  left: .3rem;
-  right: .3rem;
 
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
-  width: 100%;
-  align-items: center;
+  gap: 10rem;
 
   padding: 1rem;
+
+  width: 96vw;
+  align-items: center;
+
 
   background: linear-gradient(to right, var(--primary) 0%, var(--secondary) 100%);
   border-radius: 1000px;
@@ -37,3 +38,6 @@
   justify-content: space-between;
 }
 
+.main-header .hamburger-menu { 
+  display: none;
+}

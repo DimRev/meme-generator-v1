@@ -494,7 +494,7 @@ function resizeFilterListItems() {
   const elFilterNavs = document.querySelectorAll('.filter-nav')
   elFilterNavs.forEach((elFilterNav) => {
     let filter = elFilterNav.dataset.filter
-    let fontSize = 1 + getFilterCount(filter) / 50 + 'rem'
+    let fontSize = 1 + getFilterCount(filter) / 50 + 'em'
     elFilterNav.style.fontSize = fontSize
   })
 }
