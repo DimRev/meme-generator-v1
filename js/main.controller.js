@@ -99,6 +99,7 @@ function lineControlsEventListeners() {
       refreshCanvas()
     }, 10)
   })
+
   elMoveUpBtn.addEventListener('touchstart', function () {
     gIntervalId = setInterval(function () {
       onLineMove('up')
@@ -193,6 +194,7 @@ function fontControlsEventListeners() {
     onFontColor(elFontColor.value)
     refreshCanvas()
   })
+
   elStrokeColor.addEventListener('change', function () {
     onStrokeColor(elStrokeColor.value)
     refreshCanvas()
@@ -287,10 +289,18 @@ function renderLineText() {
   const line = getLine()
 
   const elLineTextInput = document.querySelector('.line-text')
+  const elFontColor = document.querySelector('.font-color')
+  const elStrokeColor = document.querySelector('.stroke-color')
   if (!line) {
     elLineTextInput.value = 'place holder text'
+    elFontColor.value = '#000000'
+    elStrokeColor.value = '#ffffff'
+
   } else {
     elLineTextInput.value = line.text
+    console.log(line.color,line.strokeColor);
+    elFontColor.value = line.color
+    elStrokeColor.value = line.strokeColor
   }
 }
 
@@ -447,11 +457,18 @@ function onLinePos(direction) {
 
 function onFontColor() {
   const elFontColor = document.querySelector('.font-color')
-  setLine(getLine().text, elFontColor.value)
+  let fontColor = elFontColor.value
+  if (!fontColor) fontColor = '#ffffff'
+
+  setLine(getLine().text, fontColor)
+  refreshCanvas()
 }
 
 function onStrokeColor() {
   const elStrokeColor = document.querySelector('.stroke-color')
+  let strokeColor = elStrokeColor.value
+  if (!strokeColor) strokeColor = '#000000'
+
   setLine(
     getLine().text,
     getLine().color,
@@ -459,7 +476,7 @@ function onStrokeColor() {
     getLine().pos,
     getLine().textAlign,
     getLine().fontFamily,
-    elStrokeColor.value
+    strokeColor
   )
 }
 
