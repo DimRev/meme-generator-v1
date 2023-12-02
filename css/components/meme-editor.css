@@ -34,10 +34,9 @@
   justify-content: center;
   flex-direction: column;
 
-  width: 20%;
-  max-height: 80dvh;
+  width: 15%;
+  max-height: 100%;
 
-  padding: 1rem;
   gap: 1rem;
   border-radius: 15px;
 
