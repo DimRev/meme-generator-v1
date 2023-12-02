@@ -456,6 +456,7 @@ function onMemeRemoveBtn(memeId) {
 }
 
 //? Meme Editor Section Event Handlers //
+
 //? Line Position Event Handlers //
 function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
