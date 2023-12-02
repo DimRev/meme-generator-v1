@@ -10,12 +10,18 @@ let gScaleFactor
 const gCanvas = document.querySelector('.meme-editor-canvas')
 const gCtx = gCanvas.getContext('2d')
 
+//* WINDOW EVENT LISTENERS //
+
+window.addEventListener('resize', refreshCanvas)
+
 window.addEventListener('mouseup', function () {
   clearInterval(gIntervalId)
 })
 window.addEventListener('touchend', function () {
   clearInterval(gIntervalId)
 })
+
+//* GLOBAL CANVAS EVENT LISTENERS //
 
 gCanvas.addEventListener('mousedown', onMouseDownCanvas)
 gCanvas.addEventListener('mousemove', onMouseMoveCanvas)
@@ -25,12 +31,10 @@ gCanvas.addEventListener('touchstart', onTouchStartCanvas)
 gCanvas.addEventListener('touchmove', onTouchMoveCanvas)
 gCanvas.addEventListener('touchend', onTouchEndCanvas)
 
-window.addEventListener('resize', refreshCanvas)
-
 function onInit() {
   renderGallery()
   renderMyMemes()
-  renderMemeFilters(5)
+  renderMemeFiltersOpts(5)
 
   resizeFilterListItems()
 
@@ -44,7 +48,7 @@ function onInit() {
   storageControlsEventListeners()
 }
 
-//EVENT LISTENER ACTIVATIONS //
+//* EVENT LISTENER ACTIVATIONS //
 
 function generalEventListeners() {
   const elSectionNavs = document.querySelectorAll('.section-nav')
@@ -60,8 +64,8 @@ function generalEventListeners() {
   elMoreFiltersBtn.addEventListener('click', function () {
     const elMemeFilter = document.querySelector('.meme-filter')
 
-    if (elMemeFilter.classList.contains('active')) renderMemeFilters(5)
-    else renderMemeFilters()
+    if (elMemeFilter.classList.contains('active')) renderMemeFiltersOpts(5)
+    else renderMemeFiltersOpts()
 
     resizeFilterListItems()
 
@@ -89,7 +93,7 @@ function lineControlsEventListeners() {
 
   elSwitchLineBtn.addEventListener('click', function () {
     selectNextLine()
-    renderLineText()
+    renderMemeEditorControlVals()
     refreshCanvas()
   })
 
@@ -99,6 +103,7 @@ function lineControlsEventListeners() {
       refreshCanvas()
     }, 10)
   })
+
   elMoveUpBtn.addEventListener('touchstart', function () {
     gIntervalId = setInterval(function () {
       onLineMove('up')
@@ -112,6 +117,7 @@ function lineControlsEventListeners() {
       refreshCanvas()
     }, 10)
   })
+
   elMoveDownBtn.addEventListener('touchstart', function () {
     gIntervalId = setInterval(function () {
       onLineMove('down')
@@ -121,13 +127,13 @@ function lineControlsEventListeners() {
 
   elAddLineBtn.addEventListener('click', function () {
     addLine()
-    renderLineText()
+    renderMemeEditorControlVals()
     refreshCanvas()
   })
 
   elDeleteLineBtn.addEventListener('click', function () {
     removeLine()
-    renderLineText()
+    renderMemeEditorControlVals()
     refreshCanvas()
   })
 }
@@ -202,6 +208,7 @@ function fontControlsEventListeners() {
 
 function stickerControlsEventListeners() {
   const elStickerBtns = document.querySelectorAll('.sticker-btn')
+
   elStickerBtns.forEach((elStickerBtn) => {
     elStickerBtn.addEventListener('click', function () {
       onSelectSticker(this)
@@ -211,7 +218,6 @@ function stickerControlsEventListeners() {
 
 function storageControlsEventListeners() {
   const elSaveMemeBtn = document.querySelector('.save-meme-btn')
-  const elDownloadMemeBtn = document.querySelector('.download-meme-btn')
   const elShareMemeBtn = document.querySelector('.share-meme-btn')
 
   elSaveMemeBtn.addEventListener('click', function () {
@@ -223,10 +229,11 @@ function storageControlsEventListeners() {
   })
 }
 
-// RENDER HANDLERS //
+//* RENDER HANDLERS //
 
 function refreshCanvas() {
   const selectedMeme = getSelectedMeme()
+
   if (!selectedMeme) {
     const elCanvasContainer = document.querySelector('.canvas-container')
     gCanvas.width = elCanvasContainer.offsetWidth
@@ -238,6 +245,7 @@ function refreshCanvas() {
 
 function renderGallery() {
   const memeImages = getMemeImages()
+
   let memeImagesHTML = memeImages
     .map((memeImage) => {
       return `
@@ -251,6 +259,7 @@ function renderGallery() {
     .join('')
 
   const elGallery = document.querySelector('.gallery-section')
+
   elGallery.innerHTML = memeImagesHTML
 }
 
@@ -282,19 +291,21 @@ function renderMyMemes() {
   elMyMemes.innerHTML = myMemesHTML
 }
 
-function renderLineText() {
+function renderMemeEditorControlVals() {
   const selectedMeme = getSelectedMeme()
+
   if (!selectedMeme) return
+
   const line = getLine()
 
   const elLineTextInput = document.querySelector('.line-text')
   const elFontColor = document.querySelector('.font-color')
   const elStrokeColor = document.querySelector('.stroke-color')
+
   if (!line) {
     elLineTextInput.value = 'place holder text'
     elFontColor.value = '#000000'
     elStrokeColor.value = '#ffffff'
-
   } else {
     elLineTextInput.value = line.text
     elFontColor.value = line.color
@@ -302,7 +313,7 @@ function renderLineText() {
   }
 }
 
-function renderMemeFilters(count) {
+function renderMemeFiltersOpts(count) {
   const sortedFilters = getSortedFilters()
   if (!count) count = sortedFilters.length
 
@@ -319,25 +330,7 @@ function renderMemeFilters(count) {
   elFilterNavList.innerHTML = filtersHTML
 }
 
-// EVENT HANDLERS //
-
-function onSelectGalleryMeme(elGalleryMeme) {
-  let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
-  setSelectedMeme(selectedMeme)
-
-  const elGallerySection = document.querySelector('.gallery-section')
-  elGallerySection.classList.add('hidden')
-
-  const elMemeEditorSection = document.querySelector('.meme-editor-section')
-  elMemeEditorSection.classList.remove('hidden')
-
-  refreshCanvas()
-
-  const elSectionNavs = document.querySelectorAll('.section-nav')
-  elSectionNavs.forEach((elSectionNav) => {
-    elSectionNav.classList.remove('active')
-  })
-}
+//* EVENT HANDLERS //
 
 function onSelectSection(elSectionNav) {
   let selectedSection
@@ -383,6 +376,87 @@ function onSelectSection(elSectionNav) {
   }
 }
 
+//? Gallery Section Event Handlers //
+
+function onSelectFilterNav(elFilterNav) {
+  let filter = elFilterNav.dataset.filter
+  setFilter(filter)
+  addFilterCount(filter)
+  renderGallery()
+}
+
+function onFilterNav(elFilterNav) {
+  onSelectFilterNav(elFilterNav)
+  renderMemeFiltersOpts(5)
+  resizeFilterListItems()
+
+  const elMemeFilter = document.querySelector('.meme-filter')
+  elMemeFilter.classList.remove('active')
+}
+
+function resizeFilterListItems() {
+  const elFilterNavs = document.querySelectorAll('.filter-nav')
+  elFilterNavs.forEach((elFilterNav) => {
+    let filter = elFilterNav.dataset.filter
+    let fontSize = 1 + getFilterCount(filter) / 50 + 'em'
+    elFilterNav.style.fontSize = fontSize
+  })
+}
+
+function onSelectGalleryMeme(elGalleryMeme) {
+  let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
+  setSelectedMeme(selectedMeme)
+
+  const elGallerySection = document.querySelector('.gallery-section')
+  elGallerySection.classList.add('hidden')
+
+  const elMemeEditorSection = document.querySelector('.meme-editor-section')
+  elMemeEditorSection.classList.remove('hidden')
+
+  refreshCanvas()
+
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+  elSectionNavs.forEach((elSectionNav) => {
+    elSectionNav.classList.remove('active')
+  })
+}
+
+function onGallerySectiomMeme(elImage) {
+  onSelectGalleryMeme(elImage)
+  renderMemeEditorControlVals()
+
+  const elMemeFilter = document.querySelector('.meme-filter')
+  elMemeFilter.classList.add('hidden')
+
+  for (let i = 0; i < 1000; i++) {
+    refreshCanvas()
+  }
+}
+
+//? Meme Section Event Handlers //
+
+function onMyMemeClick(elMyMeme) {
+  console.log(elMyMeme.dataset.id)
+  const myMeme = getMyMeme(elMyMeme.dataset.id)
+
+  setSelectedMeme(myMeme.selectedMeme, myMeme.lines)
+
+  const elGallerySection = document.querySelector('.meme-section')
+  elGallerySection.classList.add('hidden')
+
+  const elMemeEditorSection = document.querySelector('.meme-editor-section')
+  elMemeEditorSection.classList.remove('hidden')
+
+  refreshCanvas()
+}
+
+function onMemeRemoveBtn(memeId) {
+  deleteMyMeme(memeId)
+  renderMyMemes()
+}
+
+//? Meme Editor Section Event Handlers //
+//? Line Position Event Handlers //
 function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
   let lineText = elLineTextInput.value
@@ -453,6 +527,7 @@ function onLinePos(direction) {
   }
 }
 
+//? Font Event Handlers //
 function onFontColor() {
   const elFontColor = document.querySelector('.font-color')
   let fontColor = elFontColor.value
@@ -490,11 +565,13 @@ function onFontFamily() {
   )
 }
 
+//? Sticker Event Handlers //
 function onSelectSticker(elStickerBtn) {
   const sticker = elStickerBtn.dataset.sticker
   addLine(sticker)
 }
 
+//? Storages Event Handlers//
 function onSaveMeme() {
   const selectedMeme = getSelectedMeme()
   const lines = getAllLines()
@@ -530,64 +607,7 @@ function onShareMeme() {
   })
 }
 
-function onGallerySectiomMeme(elImage) {
-  onSelectGalleryMeme(elImage)
-  renderLineText()
-
-  const elMemeFilter = document.querySelector('.meme-filter')
-  elMemeFilter.classList.add('hidden')
-
-  for (let i = 0; i < 1000; i++) {
-    refreshCanvas()
-  }
-}
-
-function onMyMemeClick(elMyMeme) {
-  console.log(elMyMeme.dataset.id)
-  const myMeme = getMyMeme(elMyMeme.dataset.id)
-
-  setSelectedMeme(myMeme.selectedMeme, myMeme.lines)
-
-  const elGallerySection = document.querySelector('.meme-section')
-  elGallerySection.classList.add('hidden')
-
-  const elMemeEditorSection = document.querySelector('.meme-editor-section')
-  elMemeEditorSection.classList.remove('hidden')
-
-  refreshCanvas()
-}
-
-function onMemeRemoveBtn(memeId) {
-  deleteMyMeme(memeId)
-  renderMyMemes()
-}
-
-function onSelectFilterNav(elFilterNav) {
-  let filter = elFilterNav.dataset.filter
-  setFilter(filter)
-  addFilterCount(filter)
-  renderGallery()
-}
-
-function onFilterNav(elFilterNav) {
-  onSelectFilterNav(elFilterNav)
-  renderMemeFilters(5)
-  resizeFilterListItems()
-
-  const elMemeFilter = document.querySelector('.meme-filter')
-  elMemeFilter.classList.remove('active')
-}
-
-function resizeFilterListItems() {
-  const elFilterNavs = document.querySelectorAll('.filter-nav')
-  elFilterNavs.forEach((elFilterNav) => {
-    let filter = elFilterNav.dataset.filter
-    let fontSize = 1 + getFilterCount(filter) / 50 + 'em'
-    elFilterNav.style.fontSize = fontSize
-  })
-}
-
-// CANVAS HANDLERS //
+//* CANVAS EVENT HANDLERS //
 
 function drawOnCanvas(unSelectLine, callback) {
   const elCanvasContainer = document.querySelector('.canvas-container')
@@ -706,7 +726,7 @@ function onMouseDownCanvas(e) {
 
       // Redraw the canvas
       drawOnCanvas()
-      renderLineText()
+      renderMemeEditorControlVals()
     }
   })
 }
@@ -787,7 +807,7 @@ function onTouchStartCanvas(e) {
 
       // Redraw the canvas
       drawOnCanvas()
-      renderLineText()
+      renderMemeEditorControlVals()
     }
   })
 }
