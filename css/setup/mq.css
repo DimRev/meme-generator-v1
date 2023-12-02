@@ -38,7 +38,11 @@
     padding: 0;
     width: 90vw;
     height: 300px;
-    background-color: #f0f8ffdd;
+    background: linear-gradient(
+      to bottom,
+      #5970cfdd 0%,
+      #21ac91dd 100%
+    );
 
     border-radius: 30px;
   }
@@ -64,7 +68,8 @@
   .main-header .main-nav .main-nav-list li a.active {
     display: block;
     width: 80vw;
-    box-shadow: 0 0 1px 0.6rem var(--secondary), 0 0 0.8rem 0.7rem var(--primary);
+    box-shadow: 0 0 1px 0.6rem var(--secondary),
+      0 0 0.8rem 0.7rem var(--primary);
   }
 
   .main-header .main-nav .main-nav-list {
@@ -122,7 +127,8 @@
   .meme-editor-controls .font-controls,
   .meme-editor-controls .sticker-controls {
     display: grid;
-    grid-template-columns: repeat(2, minmax(2rem, 2.5rem));
+    grid-template-columns: repeat(3, minmax(1.2rem, 2.3rem));
+    gap: .2rem;
   }
 }
 
@@ -185,7 +191,8 @@
   .meme-editor-controls .font-controls,
   .meme-editor-controls .sticker-controls {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0.5rem, 3rem));
+    grid-template-columns: repeat(3, minmax(0.5rem, 2.5rem));
+    gap: .2rem;
   }
 }
 
@@ -253,6 +260,7 @@
   .meme-editor-controls .font-controls,
   .meme-editor-controls .sticker-controls {
     grid-template-columns: repeat(3, minmax(2rem, 3rem));
+    gap: .1rem .3rem;
   }
 }
 

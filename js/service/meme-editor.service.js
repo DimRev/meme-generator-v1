@@ -10,21 +10,21 @@ function setSelectedMeme(selectedMeme, lines) {
     gLines = [
       {
         text: 'Place holder Text 1',
-        color: 'White',
+        color: '#ffffff',
         fontSize: 20,
         fontFamily: 'Impact',
         pos: { x: 0, y: -75 },
         textAlign: 'center',
-        strokeColor: 'black',
+        strokeColor: '#000000',
       },
       {
         text: 'Place holder Text 2',
-        color: 'White',
+        color: '#ffffff',
         fontSize: 20,
         fontFamily: 'Impact',
         pos: { x: 0, y: 75 },
         testAlign: 'center',
-        strokeColor: 'black',
+        strokeColor: '#000000',
       },
     ]
   } else {
@@ -84,12 +84,12 @@ function setLine(
 function addLine(text) {
   gLines.push({
     text: text || 'Place holder Text',
-    color: 'White',
+    color: '#ffffff',
     fontSize: 60,
     fontFamily: 'Impact',
     pos: { x: 0, y: 0 },
     textAlign: 'center',
-    strokeColor: 'black',
+    strokeColor: '#000000',
   })
   gSeletedLineIdx = gLines.length - 1
 }
