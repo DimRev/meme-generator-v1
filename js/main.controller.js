@@ -99,7 +99,6 @@ function lineControlsEventListeners() {
       refreshCanvas()
     }, 10)
   })
-
   elMoveUpBtn.addEventListener('touchstart', function () {
     gIntervalId = setInterval(function () {
       onLineMove('up')
