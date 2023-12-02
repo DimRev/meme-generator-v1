@@ -38,9 +38,9 @@
     padding: 0;
     width: 90vw;
     height: 300px;
-    background-color: aliceblue;
+    background-color: #f0f8ffdd;
 
-    border-radius: 15px;
+    border-radius: 30px;
   }
 
   .main-header .main-nav {
@@ -54,6 +54,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .main-header .main-nav-list {
+    width: 100%;
+  }
+
+  .main-header .main-nav .main-nav-list li a:hover,
+  .main-header .main-nav .main-nav-list li a.active {
+    display: block;
+    width: 80vw;
+    box-shadow: 0 0 1px 0.6rem var(--secondary), 0 0 0.8rem 0.7rem var(--primary);
   }
 
   .main-header .main-nav .main-nav-list {
@@ -115,7 +126,7 @@
   }
 }
 
-@media (width > 480px) {
+@media (480px < width <= 768px) {
   /* MAIN LAYOUT */
 
   .main-layout {

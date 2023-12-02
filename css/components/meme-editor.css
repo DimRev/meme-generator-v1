@@ -101,6 +101,7 @@ label img {
   display: grid;
   grid-template-columns: repeat(3, minmax(0.5rem, 5rem));
 }
+
 .meme-editor-controls .line-controls .line-text {
   grid-column: 1/-1;
 }

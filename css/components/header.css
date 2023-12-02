@@ -61,4 +61,12 @@
 
 .main-header .hamburger-menu {
   display: none;
+  border: none;
+  background-color: transparent;
+
+  transition : transform 0.2s ease;
+}
+
+.main-header .hamburger-menu:hover {
+  transform: scale(1.3);
 }
