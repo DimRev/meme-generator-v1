@@ -242,11 +242,17 @@
     align-items: center;
     justify-self: start;
     width: 20%;
-    max-height: 400px;
+    max-height: 450px;
   }
 
   .meme-editor-controls .meme-storage-controls {
     flex-direction: row;
+  }
+
+  .meme-editor-controls .line-controls,
+  .meme-editor-controls .font-controls,
+  .meme-editor-controls .sticker-controls {
+    grid-template-columns: repeat(3, minmax(2rem, 3rem));
   }
 }
 

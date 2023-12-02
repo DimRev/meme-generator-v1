@@ -735,6 +735,7 @@ function onMouseUpCanvas() {
   // Reset the dragging state
   isDragging = false
 }
+
 function onTouchStartCanvas(e) {
   e.preventDefault()
   const touch = e.touches[0]
