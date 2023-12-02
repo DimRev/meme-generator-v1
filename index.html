@@ -20,7 +20,9 @@
           </li>
         </ul>
       </nav>
-      <button class="hamburger-menu"><img src="img/icons/bars-solid.svg" alt="menu image"></button>
+      <button class="hamburger-menu">
+        <img src="img/icons/bars-solid.svg" alt="menu image" />
+      </button>
     </header>
 
     <main class="main-content">
@@ -177,9 +179,23 @@
           </div>
 
           <div class="meme-storage-controls">
-            <button class="save-meme-btn"><img src="img/icons/floppy-disk-solid.svg" alt="flopy disk"></button>
-            <button class="download-meme-btn"><img src="img/icons/download-solid.svg" alt="download"></button>
-            <button class="share-meme-btn"><img src="img/icons/share-solid.svg" alt="share"></button>
+            <button class="save-meme-btn">
+              <a href=""
+                ><img src="img/icons/floppy-disk-solid.svg" alt="flopy disk"
+              /></a>
+            </button>
+            <button class="download-meme-btn">
+              <a
+                href="#"
+                class="download-link"
+                onclick="onDownloadMeme(this)"
+                download="my-img.jpg"
+                ><img src="img/icons/download-solid.svg" alt="download"
+              /></a>
+            </button>
+            <button class="share-meme-btn">
+              <a href=""><img src="img/icons/share-solid.svg" alt="share" /></a>
+            </button>
           </div>
         </div>
       </section>
@@ -195,6 +211,7 @@
     <script src="js/service/gallery.service.js"></script>
     <script src="js/service/myMemes.service.js"></script>
     <script src="js/service/meme-editor.service.js"></script>
+    <script src="js/service/sharing-on-facebook.service.js"></script>
     <script src="js/main.controller.js"></script>
   </body>
 </html>

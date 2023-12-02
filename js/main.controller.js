@@ -217,10 +217,6 @@ function storageControlsEventListeners() {
     onSaveMeme()
   })
 
-  elDownloadMemeBtn.addEventListener('click', function () {
-    onDownloadMeme()
-  })
-
   elShareMemeBtn.addEventListener('click', function () {
     onShareMeme()
   })
@@ -494,6 +490,31 @@ function onSaveMeme() {
   renderMyMemes()
 }
 
+function onDownloadMeme(elLink) {
+  drawOnCanvas(true, function () {
+    const imgContent = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
+    elLink.href = imgContent
+  })
+  drawOnCanvas()
+}
+
+function onShareMeme() {
+  drawOnCanvas(true, function () {
+    const imgDataUrl = gCanvas.toDataURL('image/jpeg')
+
+    function onSuccess(uploadedImgUrl) {
+      // Handle some special characters
+      const url = encodeURIComponent(uploadedImgUrl)
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`
+      )
+    }
+
+    // Send the image to the server
+    doUploadImg(imgDataUrl, onSuccess)
+  })
+}
+
 function onGallerySectiomMeme(elImage) {
   onSelectGalleryMeme(elImage)
   renderLineText()
@@ -553,7 +574,7 @@ function resizeFilterListItems() {
 
 // CANVAS HANDLERS //
 
-function drawOnCanvas(unSelectLine) {
+function drawOnCanvas(unSelectLine, callback) {
   const elCanvasContainer = document.querySelector('.canvas-container')
   gCanvas.width = elCanvasContainer.offsetWidth
   gCanvas.height = elCanvasContainer.offsetHeight
@@ -562,63 +583,78 @@ function drawOnCanvas(unSelectLine) {
   if (!selectedMeme) return
 
   const img = new Image()
+  let isImageLoaded = false
+
+  img.onload = function () {
+    isImageLoaded = true
+  }
 
   img.src = selectedMeme.url
 
-  img.onload = function () {
-    function animate() {
-      gScaleFactor = Math.min(
-        gCanvas.width / img.width,
-        gCanvas.height / img.height
-      )
-
-      // Center the image inside the canvas
-      const imgWidth = img.width * gScaleFactor
-      const imgHeight = img.height * gScaleFactor
-      const imgX = (gCanvas.width - imgWidth) / 2
-      const imgY = (gCanvas.height - imgHeight) / 2
-
-      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
-      gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
-
-      let lines = getAllLines()
-      lines.forEach((line, index) => {
-        let isSelected = index === getSelectedLineIdx()
-        if (unSelectLine) isSelected = false
-
-        const scaledFontSize = line.fontSize * gScaleFactor
-        gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
-        gCtx.fillStyle = `${line.color}`
-        gCtx.lineWidth = 2
-        gCtx.strokeStyle = `${line.strokeColor}`
-        gCtx.textAlign = `${line.textAlign}`
-
-        let textX = gCanvas.width / 2 + line.pos.x * gScaleFactor
-        let textY =
-          gCanvas.height / 2 + line.pos.y * gScaleFactor + scaledFontSize / 2
-
-        gCtx.fillText(line.text, textX, textY)
-        gCtx.strokeText(line.text, textX, textY)
-
-        if (isSelected) {
-          const textWidth = gCtx.measureText(line.text).width
-          const rectX = textX - textWidth / 2 - 10
-          const rectY = textY - scaledFontSize - 5
-          const rectWidth = textWidth + 20
-          const rectHeight = scaledFontSize + 20
-
-          gCtx.strokeStyle = 'White'
-          gCtx.lineWidth = 4
-
-          gCtx.setLineDash([5, 5])
-          gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight)
-          gCtx.setLineDash([])
-        }
-      })
+  function animate() {
+    if (!isImageLoaded) {
+      // If the image is not loaded yet, wait for the next animation frame
       requestAnimationFrame(animate)
+      return
     }
-    animate()
+
+    gScaleFactor = Math.min(
+      gCanvas.width / img.width,
+      gCanvas.height / img.height
+    )
+
+    // Center the image inside the canvas
+    const imgWidth = img.width * gScaleFactor
+    const imgHeight = img.height * gScaleFactor
+    const imgX = (gCanvas.width - imgWidth) / 2
+    const imgY = (gCanvas.height - imgHeight) / 2
+
+    gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
+    gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
+
+    let lines = getAllLines()
+    lines.forEach((line, index) => {
+      let isSelected = index === getSelectedLineIdx()
+      if (unSelectLine) isSelected = false
+
+      const scaledFontSize = line.fontSize * gScaleFactor
+      gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
+      gCtx.fillStyle = `${line.color}`
+      gCtx.lineWidth = 2
+      gCtx.strokeStyle = `${line.strokeColor}`
+      gCtx.textAlign = `${line.textAlign}`
+
+      let textX = gCanvas.width / 2 + line.pos.x * gScaleFactor
+      let textY =
+        gCanvas.height / 2 + line.pos.y * gScaleFactor + scaledFontSize / 2
+
+      gCtx.fillText(line.text, textX, textY)
+      gCtx.strokeText(line.text, textX, textY)
+
+      if (isSelected) {
+        const textWidth = gCtx.measureText(line.text).width
+        const rectX = textX - textWidth / 2 - 10
+        const rectY = textY - scaledFontSize - 5
+        const rectWidth = textWidth + 20
+        const rectHeight = scaledFontSize + 20
+
+        gCtx.strokeStyle = 'White'
+        gCtx.lineWidth = 4
+
+        gCtx.setLineDash([5, 5])
+        gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight)
+        gCtx.setLineDash([])
+      }
+    })
+    if (callback) {
+      // Invoke the callback after the animation loop
+      callback()
+    }
+    requestAnimationFrame(animate)
   }
+
+  // Start the animation loop
+  animate()
 }
 
 function onMouseDownCanvas(e) {
