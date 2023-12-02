@@ -21,6 +21,10 @@ window.addEventListener('touchend', function () {
   clearInterval(gIntervalId)
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 //* GLOBAL CANVAS EVENT LISTENERS //
 
 gCanvas.addEventListener('mousedown', onMouseDownCanvas)
@@ -31,6 +35,10 @@ gCanvas.addEventListener('touchstart', onTouchStartCanvas)
 gCanvas.addEventListener('touchmove', onTouchMoveCanvas)
 gCanvas.addEventListener('touchend', onTouchEndCanvas)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 function onInit() {
   renderGallery()
   renderMyMemes()
@@ -93,7 +101,11 @@ function lineControlsEventListeners() {
 
   elSwitchLineBtn.addEventListener('click', function () {
     selectNextLine()
+<<<<<<< HEAD
     renderMemeEditorControlVals()
+=======
+    remnderMemeEditorCtrlVals()
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
     refreshCanvas()
   })
 
@@ -127,13 +139,21 @@ function lineControlsEventListeners() {
 
   elAddLineBtn.addEventListener('click', function () {
     addLine()
+<<<<<<< HEAD
     renderMemeEditorControlVals()
+=======
+    remnderMemeEditorCtrlVals()
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
     refreshCanvas()
   })
 
   elDeleteLineBtn.addEventListener('click', function () {
     removeLine()
+<<<<<<< HEAD
     renderMemeEditorControlVals()
+=======
+    remnderMemeEditorCtrlVals()
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
     refreshCanvas()
   })
 }
@@ -291,7 +311,11 @@ function renderMyMemes() {
   elMyMemes.innerHTML = myMemesHTML
 }
 
+<<<<<<< HEAD
 function renderMemeEditorControlVals() {
+=======
+function remnderMemeEditorCtrlVals() {
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
   const selectedMeme = getSelectedMeme()
 
   if (!selectedMeme) return
@@ -376,6 +400,7 @@ function onSelectSection(elSectionNav) {
   }
 }
 
+<<<<<<< HEAD
 //? Gallery Section Event Handlers //
 
 function onSelectFilterNav(elFilterNav) {
@@ -385,6 +410,17 @@ function onSelectFilterNav(elFilterNav) {
   renderGallery()
 }
 
+=======
+  //? Gallery Section Event Handlers //
+
+function onSelectFilterNav(elFilterNav) {
+    let filter = elFilterNav.dataset.filter
+    setFilter(filter)
+    addFilterCount(filter)
+    renderGallery()
+  }
+  
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 function onFilterNav(elFilterNav) {
   onSelectFilterNav(elFilterNav)
   renderMemeFiltersOpts(5)
@@ -423,7 +459,11 @@ function onSelectGalleryMeme(elGalleryMeme) {
 
 function onGallerySectiomMeme(elImage) {
   onSelectGalleryMeme(elImage)
+<<<<<<< HEAD
   renderMemeEditorControlVals()
+=======
+  remnderMemeEditorCtrlVals()
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
@@ -433,6 +473,7 @@ function onGallerySectiomMeme(elImage) {
   }
 }
 
+<<<<<<< HEAD
 //? Meme Section Event Handlers //
 
 function onMyMemeClick(elMyMeme) {
@@ -457,6 +498,32 @@ function onMemeRemoveBtn(memeId) {
 
 //? Meme Editor Section Event Handlers //
 //? Line Position Event Handlers //
+=======
+  //? Meme Section Event Handlers //
+
+  function onMyMemeClick(elMyMeme) {
+    console.log(elMyMeme.dataset.id)
+    const myMeme = getMyMeme(elMyMeme.dataset.id)
+  
+    setSelectedMeme(myMeme.selectedMeme, myMeme.lines)
+  
+    const elGallerySection = document.querySelector('.meme-section')
+    elGallerySection.classList.add('hidden')
+  
+    const elMemeEditorSection = document.querySelector('.meme-editor-section')
+    elMemeEditorSection.classList.remove('hidden')
+  
+    refreshCanvas()
+  }
+  
+  function onMemeRemoveBtn(memeId) {
+    deleteMyMeme(memeId)
+    renderMyMemes()
+  }
+
+  //? Meme Editor Section Event Handlers //
+    //? Line Position Event Handlers //
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 function onLineText() {
   const elLineTextInput = document.querySelector('.line-text')
   let lineText = elLineTextInput.value
@@ -527,7 +594,11 @@ function onLinePos(direction) {
   }
 }
 
+<<<<<<< HEAD
 //? Font Event Handlers //
+=======
+    //? Font Event Handlers //
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 function onFontColor() {
   const elFontColor = document.querySelector('.font-color')
   let fontColor = elFontColor.value
@@ -565,13 +636,21 @@ function onFontFamily() {
   )
 }
 
+<<<<<<< HEAD
 //? Sticker Event Handlers //
+=======
+    //? Sticker Event Handlers //
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 function onSelectSticker(elStickerBtn) {
   const sticker = elStickerBtn.dataset.sticker
   addLine(sticker)
 }
 
+<<<<<<< HEAD
 //? Storages Event Handlers//
+=======
+    //? Storages Event Handlers//
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
 function onSaveMeme() {
   const selectedMeme = getSelectedMeme()
   const lines = getAllLines()
@@ -726,7 +805,11 @@ function onMouseDownCanvas(e) {
 
       // Redraw the canvas
       drawOnCanvas()
+<<<<<<< HEAD
       renderMemeEditorControlVals()
+=======
+      remnderMemeEditorCtrlVals()
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
     }
   })
 }
@@ -807,7 +890,11 @@ function onTouchStartCanvas(e) {
 
       // Redraw the canvas
       drawOnCanvas()
+<<<<<<< HEAD
       renderMemeEditorControlVals()
+=======
+      remnderMemeEditorCtrlVals()
+>>>>>>> 96abbb9643cfd401aec0a3ae3a7119a858940665
     }
   })
 }
