@@ -288,7 +288,7 @@ function renderMyMemes() {
     elMyMemes.innerHTML = myMemesHTML
     return
   }
- myMemesHTML = myMemes
+  myMemesHTML = myMemes
     .map((myMeme) => {
       return `
   <div class="meme-section-meme-wrapper">
@@ -597,6 +597,11 @@ function onSelectSticker(elStickerBtn) {
 }
 
 //? Storages Event Handlers//
+
+//! In order to remove the line selection dotted line around the txt line in the canvas
+//! I've added a short timeout to the save/download/share functions in order to give the canvas time to render
+//! This method might cause bugs, but it may be switched to a better solution in a later date.
+
 function onSaveMeme() {
   const selectedMeme = getSelectedMeme()
   const lines = getAllLines()
@@ -635,7 +640,7 @@ function onDownloadMeme() {
 
     document.body.appendChild(link)
     link.click()
-    
+
     document.body.removeChild(link)
   }
 }
