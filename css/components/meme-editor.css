@@ -69,6 +69,19 @@ label img {
   translate: 33%;
 }
 
+.meme-editor-section .meme-editor-controls .line-pos-left-btn { 
+  grid-row: 2;
+  grid-column: 1;
+}
+.meme-editor-section .meme-editor-controls .line-pos-center-btn { 
+  grid-row: 2;
+  grid-column: 2;
+}
+.meme-editor-section .meme-editor-controls .line-pos-right-btn { 
+  grid-row: 2;
+  grid-column: 3;
+}
+
 .meme-editor-section .meme-editor-controls img:not(:has(input)) {
   pointer-events: none;
 }

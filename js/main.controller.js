@@ -268,16 +268,34 @@ function renderGallery() {
 function renderMyMemes() {
   const myMemes = getAllMemes()
 
-  let myMemesHTML = myMemes
+  let myMemesHTML = ''
+  if (myMemes.length === 0) {
+    myMemesHTML = `<p style="
+                  text-align: center; 
+                  font-size: 20px;
+                  font-family: monospace;
+                  font-weight: 600;
+                  color: aliceblue;
+                  position: absolute;
+                  left: 50%;
+                  top: 50%;
+                  background-color: #00000033;
+                  padding: 10px;
+                  border-radius: 10px;
+                  transform: translate(-50%, -50%);
+                  ">No saved memes found, please create a new meme to store it here!</p>`
+    const elMyMemes = document.querySelector('.meme-section')
+    elMyMemes.innerHTML = myMemesHTML
+    return
+  }
+ myMemesHTML = myMemes
     .map((myMeme) => {
       return `
   <div class="meme-section-meme-wrapper">
   <button class="meme-close-btn" onclick="onMemeRemoveBtn('${
     myMeme.id
   }')">X</button>
-  <img src="${
-    myMeme.imgURL
-  }" alt="${myMeme.selectedMeme.keywords.join(
+  <img src="${myMeme.imgURL}" alt="${myMeme.selectedMeme.keywords.join(
         ', '
       )}" class="meme-section-meme" data-id="${
         myMeme.id
@@ -431,7 +449,7 @@ function onGallerySectiomMeme(elImage) {
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 300; i++) {
     refreshCanvas()
   }
 }
@@ -451,7 +469,7 @@ function onMyMemeClick(elMyMeme) {
   const elMemeEditorSection = document.querySelector('.meme-editor-section')
   elMemeEditorSection.classList.remove('hidden')
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 300; i++) {
     refreshCanvas()
   }
 }
@@ -582,13 +600,16 @@ function onSelectSticker(elStickerBtn) {
 function onSaveMeme() {
   const selectedMeme = getSelectedMeme()
   const lines = getAllLines()
-  addMeme(selectedMeme, lines)
-
-  const elMemeNav = document.querySelector('.section-nav[data-section="meme"]')
-  onSelectSection(elMemeNav)
+  drawOnCanvas(true)
   setTimeout(() => {
+    addMeme(selectedMeme, lines)
+    drawOnCanvas()
+    const elMemeNav = document.querySelector(
+      '.section-nav[data-section="meme"]'
+    )
+    onSelectSection(elMemeNav)
     renderMyMemes()
-  }, 350);
+  }, 10)
 }
 
 function onDownloadMeme() {
