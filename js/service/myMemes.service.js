@@ -3,13 +3,13 @@ const MY_MEMES = 'MyMemesDB'
 
 _loadMemesFromStorage()
 
-function addMeme(selectedMeme, lines) {
+function addMeme(selectedMeme, lines, imgURL) {
 
     const newMeme = {
       id: getRandomId(),
       selectedMeme,
       lines,
-      imgURL: gCanvas.toDataURL('image/jpeg'),
+      imgURL,
     }
     gMyMemes.push(newMeme)
     _saveMemesToStorage()

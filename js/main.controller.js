@@ -600,13 +600,18 @@ function onSelectSticker(elStickerBtn) {
 function onSaveMeme() {
   const selectedMeme = getSelectedMeme()
   const lines = getAllLines()
+
   drawOnCanvas(true)
+
   setTimeout(() => {
-    addMeme(selectedMeme, lines)
+    let imgURL = gCanvas.toDataURL('image/jpeg')
+
+    addMeme(selectedMeme, lines, imgURL)
     drawOnCanvas()
     const elMemeNav = document.querySelector(
       '.section-nav[data-section="meme"]'
     )
+
     onSelectSection(elMemeNav)
     renderMyMemes()
   }, 10)
@@ -614,18 +619,23 @@ function onSaveMeme() {
 
 function onDownloadMeme() {
   drawOnCanvas(true)
+
   setTimeout(() => {
     const imgContent = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
+
     downloadFile(imgContent, 'myMeme.jpg')
     drawOnCanvas()
   }, 10)
 
   function downloadFile(url, filename) {
     var link = document.createElement('a')
+
     link.href = url
     link.download = filename
+
     document.body.appendChild(link)
     link.click()
+    
     document.body.removeChild(link)
   }
 }
