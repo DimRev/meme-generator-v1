@@ -377,6 +377,26 @@ function onSelectSection(elSectionNav) {
   }
 }
 
+function removeSelectedSection(elGalleryMeme, isFromGallery) {
+  if (isFromGallery) {
+    let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
+    setSelectedMeme(selectedMeme)
+  }
+
+  const elGallerySection = document.querySelector('.gallery-section')
+  elGallerySection.classList.add('hidden')
+
+  const elMemeEditorSection = document.querySelector('.meme-editor-section')
+  elMemeEditorSection.classList.remove('hidden')
+
+  refreshCanvas()
+
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+  elSectionNavs.forEach((elSectionNav) => {
+    elSectionNav.classList.remove('active')
+  })
+}
+
 //? Gallery Section Event Handlers //
 
 function onSelectFilterNav(elFilterNav) {
@@ -404,32 +424,14 @@ function resizeFilterListItems() {
   })
 }
 
-function onSelectGalleryMeme(elGalleryMeme) {
-  let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
-  setSelectedMeme(selectedMeme)
-
-  const elGallerySection = document.querySelector('.gallery-section')
-  elGallerySection.classList.add('hidden')
-
-  const elMemeEditorSection = document.querySelector('.meme-editor-section')
-  elMemeEditorSection.classList.remove('hidden')
-
-  refreshCanvas()
-
-  const elSectionNavs = document.querySelectorAll('.section-nav')
-  elSectionNavs.forEach((elSectionNav) => {
-    elSectionNav.classList.remove('active')
-  })
-}
-
 function onGallerySectiomMeme(elImage) {
-  onSelectGalleryMeme(elImage)
+  removeSelectedSection(elImage, true)
   renderMemeEditorControlVals()
 
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     refreshCanvas()
   }
 }
@@ -437,7 +439,8 @@ function onGallerySectiomMeme(elImage) {
 //? Meme Section Event Handlers //
 
 function onMyMemeClick(elMyMeme) {
-  console.log(elMyMeme.dataset.id)
+  removeSelectedSection()
+
   const myMeme = getMyMeme(elMyMeme.dataset.id)
 
   setSelectedMeme(myMeme.selectedMeme, myMeme.lines)
@@ -448,7 +451,9 @@ function onMyMemeClick(elMyMeme) {
   const elMemeEditorSection = document.querySelector('.meme-editor-section')
   elMemeEditorSection.classList.remove('hidden')
 
-  refreshCanvas()
+  for (let i = 0; i < 100; i++) {
+    refreshCanvas()
+  }
 }
 
 function onMemeRemoveBtn(memeId) {

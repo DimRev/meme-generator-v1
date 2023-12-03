@@ -41,10 +41,10 @@ function _saveMemesToStorage() {
   saveToStorage(MY_MEMES, gMyMemes)
 }
 
-function _getMemeImgURL() { 
+function _getMemeImgURL() {
   drawOnCanvas(true)
   setTimeout(() => {
     gCurrentImgURL = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
     drawOnCanvas()
-  }, 10)
+  }, 30)
 }
