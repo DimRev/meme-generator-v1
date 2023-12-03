@@ -3,15 +3,6 @@ const MY_MEMES = 'MyMemesDB'
 
 _loadMemesFromStorage()
 
-function _loadMemesFromStorage() {
-  gMyMemes = loadFromStorage(MY_MEMES)
-  if (!gMyMemes) gMyMemes = []
-}
-
-function _saveMemesToStorage() {
-  saveToStorage(MY_MEMES, gMyMemes)
-}
-
 function addMeme(selectedMeme, lines) {
   const newMeme = {
     id: getRandomId(),
@@ -34,4 +25,13 @@ function getMyMeme(id) {
 
 function getAllMemes() {
   return gMyMemes
+}
+
+function _loadMemesFromStorage() {
+  gMyMemes = loadFromStorage(MY_MEMES)
+  if (!gMyMemes) gMyMemes = []
+}
+
+function _saveMemesToStorage() {
+  saveToStorage(MY_MEMES, gMyMemes)
 }

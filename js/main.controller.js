@@ -380,8 +380,8 @@ function onSelectSection(elSectionNav) {
 
 function onSelectFilterNav(elFilterNav) {
   let filter = elFilterNav.dataset.filter
-  setFilter(filter)
-  addFilterCount(filter)
+  setFilterKeyword(filter)
+  addKeywordVisits(filter)
   renderGallery()
 }
 
@@ -398,7 +398,7 @@ function resizeFilterListItems() {
   const elFilterNavs = document.querySelectorAll('.filter-nav')
   elFilterNavs.forEach((elFilterNav) => {
     let filter = elFilterNav.dataset.filter
-    let fontSize = 1 + getFilterCount(filter) / 50 + 'em'
+    let fontSize = 1 + getKeywordVisits(filter) / 50 + 'em'
     elFilterNav.style.fontSize = fontSize
   })
 }

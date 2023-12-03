@@ -1,16 +1,8 @@
-const keywordVisits = {
-  all: 55,
-  random: 5,
-  happy: 1,
-  politics: 15,
-  animals: 25,
-  cute: 35,
-  angry: 25,
-  baby: 5,
-  funny: 2,
-  general: 55,
-  actors: 5,
-}
+const MY_KEYWORDS = 'MyKeywords'
+
+let gkeywordVisits
+_loadKeywordsFromStorage()
+
 let gFilter = 'all'
 
 var gImgs = [
@@ -50,20 +42,44 @@ function getMemeImageById(id) {
   return gImgs.find((img) => img.id === id)
 }
 
-function setFilter(filter) {
+function getSortedFilters() {
+  return Object.keys(gkeywordVisits).sort(
+    (a, b) => gkeywordVisits[b] - gkeywordVisits[a]
+  )
+}
+
+function setFilterKeyword(filter) {
   gFilter = filter
 }
 
-function addFilterCount(filter) {
-  keywordVisits[filter]++
+function addKeywordVisits(filter) {
+  gkeywordVisits[filter]++
+  _saveKeywordsToStorage()
 }
 
-function getFilterCount(filter) {
-  return keywordVisits[filter]
+function getKeywordVisits(filter) {
+  return gkeywordVisits[filter]
 }
 
-function getSortedFilters() {
-  return Object.keys(keywordVisits).sort(
-    (a, b) => keywordVisits[b] - keywordVisits[a]
-  )
+function _loadKeywordsFromStorage() {
+  gkeywordVisits = loadFromStorage(MY_KEYWORDS)
+  if (!gkeywordVisits) {
+    gkeywordVisits = {
+      all: 55,
+      random: 5,
+      happy: 1,
+      politics: 15,
+      animals: 25,
+      cute: 35,
+      angry: 25,
+      baby: 5,
+      funny: 2,
+      general: 55,
+      actors: 5,
+    }
+  }
+}
+
+function _saveKeywordsToStorage() {
+  saveToStorage(MY_KEYWORDS, gkeywordVisits)
 }
