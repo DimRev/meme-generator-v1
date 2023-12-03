@@ -161,6 +161,7 @@ function fontControlsEventListeners() {
       refreshCanvas()
     }, 10)
   })
+
   elRiseFontSizeBtn.addEventListener('touchstart', function () {
     gIntervalId = setInterval(function () {
       onFontSize('rise')
@@ -190,12 +191,12 @@ function fontControlsEventListeners() {
     refreshCanvas()
   })
 
-  elFontFamilySelector.addEventListener('change', function () {
+  elFontFamilySelector.addEventListener('input', function () {
     onFontFamily(elFontFamilySelector.value)
     refreshCanvas()
   })
 
-  elFontColor.addEventListener('change', function () {
+  elFontColor.addEventListener('input', function () {
     onFontColor(elFontColor.value)
     refreshCanvas()
   })
@@ -240,6 +241,7 @@ function refreshCanvas() {
     gCanvas.height = elCanvasContainer.offsetHeight
     return
   }
+
   drawOnCanvas()
 }
 
@@ -583,17 +585,29 @@ function onSaveMeme() {
   renderMyMemes()
 }
 
-function onDownloadMeme(elLink) {
-  drawOnCanvas(true, function () {
+function onDownloadMeme() {
+  drawOnCanvas(true)
+  setTimeout(() => {
     const imgContent = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
-    elLink.href = imgContent
-  })
-  drawOnCanvas()
+    downloadFile(imgContent, 'myMeme.jpg')
+    drawOnCanvas()
+  }, 10)
+
+  function downloadFile(url, filename) {
+    var link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 }
 
 function onShareMeme() {
-  drawOnCanvas(true, function () {
+  drawOnCanvas(true)
+  setTimeout(() => {
     const imgDataUrl = gCanvas.toDataURL('image/jpeg')
+    doUploadImg(imgDataUrl, onSuccess)
 
     function onSuccess(uploadedImgUrl) {
       // Handle some special characters
@@ -602,93 +616,73 @@ function onShareMeme() {
         `https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`
       )
     }
+    drawOnCanvas()
+  }, 10)
 
-    // Send the image to the server
-    doUploadImg(imgDataUrl, onSuccess)
-  })
+  // Send the image to the server
 }
 
 //* CANVAS EVENT HANDLERS //
 
-function drawOnCanvas(unSelectLine, callback) {
+function drawOnCanvas(unSelectLine) {
   const elCanvasContainer = document.querySelector('.canvas-container')
   gCanvas.width = elCanvasContainer.offsetWidth
   gCanvas.height = elCanvasContainer.offsetHeight
-
   const selectedMeme = getSelectedMeme()
   if (!selectedMeme) return
-
   const img = new Image()
   let isImageLoaded = false
-
   img.onload = function () {
     isImageLoaded = true
   }
-
   img.src = selectedMeme.url
-
   function animate() {
     if (!isImageLoaded) {
       // If the image is not loaded yet, wait for the next animation frame
       requestAnimationFrame(animate)
       return
     }
-
     gScaleFactor = Math.min(
       gCanvas.width / img.width,
       gCanvas.height / img.height
     )
-
     // Center the image inside the canvas
     const imgWidth = img.width * gScaleFactor
     const imgHeight = img.height * gScaleFactor
     const imgX = (gCanvas.width - imgWidth) / 2
     const imgY = (gCanvas.height - imgHeight) / 2
-
     gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height)
     gCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight)
-
     let lines = getAllLines()
     lines.forEach((line, index) => {
       let isSelected = index === getSelectedLineIdx()
       if (unSelectLine) isSelected = false
-
       const scaledFontSize = line.fontSize * gScaleFactor
       gCtx.font = `${scaledFontSize}px ${line.fontFamily}`
       gCtx.fillStyle = `${line.color}`
       gCtx.lineWidth = 2
       gCtx.strokeStyle = `${line.strokeColor}`
       gCtx.textAlign = `${line.textAlign}`
-
       let textX = gCanvas.width / 2 + line.pos.x * gScaleFactor
       let textY =
         gCanvas.height / 2 + line.pos.y * gScaleFactor + scaledFontSize / 2
-
       gCtx.fillText(line.text, textX, textY)
       gCtx.strokeText(line.text, textX, textY)
-
       if (isSelected) {
         const textWidth = gCtx.measureText(line.text).width
         const rectX = textX - textWidth / 2 - 10
         const rectY = textY - scaledFontSize - 5
         const rectWidth = textWidth + 20
         const rectHeight = scaledFontSize + 20
-
         gCtx.strokeStyle = 'White'
         gCtx.lineWidth = 4
-
         gCtx.setLineDash([5, 5])
         gCtx.strokeRect(rectX, rectY, rectWidth, rectHeight)
         gCtx.setLineDash([])
       }
     })
-    if (callback) {
-      // Invoke the callback after the animation loop
-      callback()
-    }
     requestAnimationFrame(animate)
   }
-
   // Start the animation loop
   animate()
 }
@@ -726,7 +720,7 @@ function onMouseDownCanvas(e) {
       setSelectedLineIdx(index)
 
       // Redraw the canvas
-      drawOnCanvas()
+      refreshCanvas()
       renderMemeEditorControlVals()
     }
   })
@@ -763,7 +757,7 @@ function onMouseMoveCanvas(e) {
     getAllLines()[selectedLineIdx].pos.y = newTextY
 
     // Redraw the canvas
-    drawOnCanvas()
+    refreshCanvas()
   }
 }
 
@@ -807,7 +801,7 @@ function onTouchStartCanvas(e) {
       setSelectedLineIdx(index)
 
       // Redraw the canvas
-      drawOnCanvas()
+      refreshCanvas()
       renderMemeEditorControlVals()
     }
   })
@@ -846,7 +840,7 @@ function onTouchMoveCanvas(e) {
     getAllLines()[selectedLineIdx].pos.y = newTextY
 
     // Redraw the canvas
-    drawOnCanvas()
+    refreshCanvas()
   }
 }
 

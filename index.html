@@ -95,40 +95,40 @@
         <div class="meme-editor-controls">
           <div class="line-controls">
             <input class="line-text" type="text" placeholder="Line text" />
-            <button class="control switch-line-btn">
+            <button class="control switch-line-btn" title="Switch line">
               <img
                 src="img/icons/up-and-down-opposite-double-arrows-side-by-side.png"
                 alt=""
               />
             </button>
-            <button class="control move-up-btn">
+            <button class="control move-up-btn" title="Move line up"">
               <img src="img/icons/arrow-up-solid.svg" alt="" />
             </button>
-            <button class="control move-down-btn">
+            <button class="control move-down-btn" title="Move line down">
               <img src="img/icons/arrow-down-solid.svg" alt="" />
             </button>
-            <button class="control add-line-btn">
+            <button class="control add-line-btn" title="Add line">
               <img src="img/icons/add.png" alt="" />
             </button>
-            <button class="control delete-line-btn">
+            <button class="control delete-line-btn" title="Delete line">
               <img src="img/icons/trash.png" alt="" />
             </button>
           </div>
 
           <div class="font-controls">
-            <button class="control rise-font-size-btn">
+            <button class="control rise-font-size-btn" title="Increase font size">
               <img src="img/icons/increase font - icon.png" alt="" />
             </button>
-            <button class="control lower-font-size-btn">
+            <button class="control lower-font-size-btn" title="Decrease font size">
               <img src="img/icons/decrease font - icon.png" alt="" />
             </button>
-            <button class="control line-pos-left-btn">
+            <button class="control line-pos-left-btn" title="Align left">
               <img src="img/icons/align-to-left.png" alt="" />
             </button>
-            <button class="control line-pos-center-btn">
+            <button class="control line-pos-center-btn" title="Align center">
               <img src="img/icons/center-text-alignment.png" alt="" />
             </button>
-            <button class="control line-pos-right-btn">
+            <button class="control line-pos-right-btn" title="Align right">
               <img src="img/icons/align-to-right.png" alt="" />
             </button>
             <select
@@ -149,7 +149,7 @@
               <option value="cochin">Cochin</option>
               <option value="georgia">Georgia</option>
             </select>
-            <label for="font-color">
+            <label for="font-color" title="Font color">
               <img
                 class="control"
                 src="img/icons/paint-board-and-brush.png"
@@ -157,7 +157,7 @@
               />
               <input class="control font-color" id="font-color" type="color" />
             </label>
-            <label for="stroke-color">
+            <label for="stroke-color" title="Stroke color">
               <img class="control" src="img/icons/text stroke.png" alt="" />
               <input
                 class="control stroke-color"
@@ -193,7 +193,6 @@
                 href="#"
                 class="download-link"
                 onclick="onDownloadMeme(this)"
-                download="my-img.jpg"
                 ><img src="img/icons/download-solid.svg" alt="download"
               /></a>
             </button>
