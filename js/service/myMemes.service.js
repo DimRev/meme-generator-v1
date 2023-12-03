@@ -8,6 +8,7 @@ function addMeme(selectedMeme, lines) {
     id: getRandomId(),
     selectedMeme,
     lines,
+    // memeImgURL : _getMemeImgURL(),
   }
   gMyMemes.push(newMeme)
   _saveMemesToStorage()
@@ -34,4 +35,12 @@ function _loadMemesFromStorage() {
 
 function _saveMemesToStorage() {
   saveToStorage(MY_MEMES, gMyMemes)
+}
+
+function _getMemeImgURL() { 
+  drawOnCanvas(true)
+  setTimeout(() => {
+    const imgContent = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
+    drawOnCanvas()
+  }, 10)
 }

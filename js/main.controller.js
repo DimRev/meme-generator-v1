@@ -720,10 +720,12 @@ function onMouseDownCanvas(e) {
       setSelectedLineIdx(index)
 
       // Redraw the canvas
-      refreshCanvas()
+      drawOnCanvas()
       renderMemeEditorControlVals()
+      return
     }
   })
+  drawOnCanvas(true)
 }
 
 function onMouseMoveCanvas(e) {
@@ -757,7 +759,7 @@ function onMouseMoveCanvas(e) {
     getAllLines()[selectedLineIdx].pos.y = newTextY
 
     // Redraw the canvas
-    refreshCanvas()
+    drawOnCanvas()
   }
 }
 
@@ -801,10 +803,12 @@ function onTouchStartCanvas(e) {
       setSelectedLineIdx(index)
 
       // Redraw the canvas
-      refreshCanvas()
+      drawOnCanvas()
       renderMemeEditorControlVals()
+      return
     }
   })
+  drawOnCanvas(true)
 }
 
 function onTouchMoveCanvas(e) {
@@ -840,7 +844,7 @@ function onTouchMoveCanvas(e) {
     getAllLines()[selectedLineIdx].pos.y = newTextY
 
     // Redraw the canvas
-    refreshCanvas()
+    drawOnCanvas()
   }
 }
 
