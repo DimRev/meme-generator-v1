@@ -275,9 +275,7 @@ function renderMyMemes() {
   <button class="meme-close-btn" onclick="onMemeRemoveBtn('${
     myMeme.id
   }')">X</button>
-  <img src="${
-    myMeme.selectedMeme.url
-  }" alt="${myMeme.selectedMeme.keywords.join(
+  <img src="${myMeme.memeImgURL}" alt="${myMeme.selectedMeme.keywords.join(
         ', '
       )}" class="meme-section-meme" data-id="${
         myMeme.id
@@ -285,7 +283,6 @@ function renderMyMemes() {
         (keyword) => `data-keyword="${keyword}"`
       )}
       onclick="onMyMemeClick(this)">
-      <p class="meme-text">${myMeme.lines[0].text}</p>
       </div>`
     })
     .join('')
@@ -378,6 +375,26 @@ function onSelectSection(elSectionNav) {
   }
 }
 
+function removeSelectedSection(elGalleryMeme, isFromGallery) {
+  if (isFromGallery) {
+    let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
+    setSelectedMeme(selectedMeme)
+  }
+
+  const elGallerySection = document.querySelector('.gallery-section')
+  elGallerySection.classList.add('hidden')
+
+  const elMemeEditorSection = document.querySelector('.meme-editor-section')
+  elMemeEditorSection.classList.remove('hidden')
+
+  refreshCanvas()
+
+  const elSectionNavs = document.querySelectorAll('.section-nav')
+  elSectionNavs.forEach((elSectionNav) => {
+    elSectionNav.classList.remove('active')
+  })
+}
+
 //? Gallery Section Event Handlers //
 
 function onSelectFilterNav(elFilterNav) {
@@ -405,32 +422,14 @@ function resizeFilterListItems() {
   })
 }
 
-function onSelectGalleryMeme(elGalleryMeme) {
-  let selectedMeme = getMemeImageById(+elGalleryMeme.dataset.id)
-  setSelectedMeme(selectedMeme)
-
-  const elGallerySection = document.querySelector('.gallery-section')
-  elGallerySection.classList.add('hidden')
-
-  const elMemeEditorSection = document.querySelector('.meme-editor-section')
-  elMemeEditorSection.classList.remove('hidden')
-
-  refreshCanvas()
-
-  const elSectionNavs = document.querySelectorAll('.section-nav')
-  elSectionNavs.forEach((elSectionNav) => {
-    elSectionNav.classList.remove('active')
-  })
-}
-
 function onGallerySectiomMeme(elImage) {
-  onSelectGalleryMeme(elImage)
+  removeSelectedSection(elImage, true)
   renderMemeEditorControlVals()
 
   const elMemeFilter = document.querySelector('.meme-filter')
   elMemeFilter.classList.add('hidden')
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     refreshCanvas()
   }
 }
@@ -438,7 +437,8 @@ function onGallerySectiomMeme(elImage) {
 //? Meme Section Event Handlers //
 
 function onMyMemeClick(elMyMeme) {
-  console.log(elMyMeme.dataset.id)
+  removeSelectedSection()
+
   const myMeme = getMyMeme(elMyMeme.dataset.id)
 
   setSelectedMeme(myMeme.selectedMeme, myMeme.lines)
@@ -449,7 +449,9 @@ function onMyMemeClick(elMyMeme) {
   const elMemeEditorSection = document.querySelector('.meme-editor-section')
   elMemeEditorSection.classList.remove('hidden')
 
-  refreshCanvas()
+  for (let i = 0; i < 100; i++) {
+    refreshCanvas()
+  }
 }
 
 function onMemeRemoveBtn(memeId) {
@@ -580,9 +582,13 @@ function onSaveMeme() {
   const lines = getAllLines()
   addMeme(selectedMeme, lines)
 
-  const elMemeNav = document.querySelector('.section-nav[data-section="meme"]')
-  onSelectSection(elMemeNav)
-  renderMyMemes()
+  setTimeout(() => {
+    const elMemeNav = document.querySelector(
+      '.section-nav[data-section="meme"]'
+    )
+    onSelectSection(elMemeNav)
+    renderMyMemes()
+  }, 1000)
 }
 
 function onDownloadMeme() {
