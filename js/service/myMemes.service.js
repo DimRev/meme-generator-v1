@@ -1,17 +1,21 @@
 let gMyMemes
+let gCurrentImgURL
 const MY_MEMES = 'MyMemesDB'
 
 _loadMemesFromStorage()
 
 function addMeme(selectedMeme, lines) {
-  const newMeme = {
-    id: getRandomId(),
-    selectedMeme,
-    lines,
-    // memeImgURL : _getMemeImgURL(),
-  }
-  gMyMemes.push(newMeme)
-  _saveMemesToStorage()
+  _getMemeImgURL()
+  setTimeout(() => {
+    const newMeme = {
+      id: getRandomId(),
+      selectedMeme,
+      lines,
+      imgURL: gCurrentImgURL,
+    }
+    gMyMemes.push(newMeme)
+    _saveMemesToStorage()
+  }, 300);
 }
 
 function deleteMyMeme(id) {
@@ -40,7 +44,7 @@ function _saveMemesToStorage() {
 function _getMemeImgURL() { 
   drawOnCanvas(true)
   setTimeout(() => {
-    const imgContent = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
+    gCurrentImgURL = gCanvas.toDataURL('image/jpeg') // image/jpeg is the default format
     drawOnCanvas()
   }, 10)
 }

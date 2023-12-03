@@ -276,7 +276,7 @@ function renderMyMemes() {
     myMeme.id
   }')">X</button>
   <img src="${
-    myMeme.selectedMeme.url
+    myMeme.imgURL
   }" alt="${myMeme.selectedMeme.keywords.join(
         ', '
       )}" class="meme-section-meme" data-id="${
@@ -285,7 +285,6 @@ function renderMyMemes() {
         (keyword) => `data-keyword="${keyword}"`
       )}
       onclick="onMyMemeClick(this)">
-      <p class="meme-text">${myMeme.lines[0].text}</p>
       </div>`
     })
     .join('')
@@ -582,7 +581,9 @@ function onSaveMeme() {
 
   const elMemeNav = document.querySelector('.section-nav[data-section="meme"]')
   onSelectSection(elMemeNav)
-  renderMyMemes()
+  setTimeout(() => {
+    renderMyMemes()
+  }, 350);
 }
 
 function onDownloadMeme() {
