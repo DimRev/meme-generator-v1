@@ -201,7 +201,7 @@ function fontControlsEventListeners() {
     refreshCanvas()
   })
 
-  elStrokeColor.addEventListener('change', function () {
+  elStrokeColor.addEventListener('input', function () {
     onStrokeColor(elStrokeColor.value)
     refreshCanvas()
   })
